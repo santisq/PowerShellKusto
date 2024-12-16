@@ -332,7 +332,9 @@ For more information, see [about_CommonParameters](http://go.microsoft.com/fwlin
 
 ## OUTPUTS
 
-### System.Object
+### None
+
+This cmdlet produces no output.
 
 ## NOTES
 
