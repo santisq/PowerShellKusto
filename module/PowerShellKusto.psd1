@@ -8,7 +8,7 @@
 
 @{
     # Script module or binary module file associated with this manifest.
-    RootModule        = 'bin/netstandard2.0/PowerShellKusto.dll'
+    RootModule        = 'bin/net6/PowerShellKusto.dll'
 
     # Version number of this module.
     ModuleVersion     = '1.0.0'
@@ -32,7 +32,7 @@
     Description       = 'PowerShell Module that wraps Microsoft.Azure.Kusto.Data & Microsoft.Azure.Kusto.Ingest'
 
     # Minimum version of the PowerShell engine required by this module
-    PowerShellVersion = '5.1'
+    PowerShellVersion = '7.2.0'
 
     # Name of the PowerShell host required by this module
     # PowerShellHostName = ''

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Management.Automation;
 using System.Security.Authentication;
+using System.Security.Cryptography.X509Certificates;
 using Kusto.Data;
 using Kusto.Data.Common;
 
@@ -13,24 +14,50 @@ public sealed class ConnectKustoCommand : PSCmdlet
 
     private const string IdentitySet = "Identity";
 
+    private const string UserPromptSet = "UserPrompt";
+
+    private const string CertificateSet = "Certificate";
+
+    private const string CertificateThumbprintSet = "CertificateThumbprint";
+
+    [ThreadStatic]
     private static KustoConnectionDetails? s_connectionDetails;
 
-
     [Parameter(Mandatory = true, Position = 0)]
-    public string Cluster { get; set; } = null!;
+    public string ClusterUri { get; set; } = null!;
 
-    [Parameter(Mandatory = true, Position = 1)]
-    public string Database { get; set; } = null!;
+    [Parameter(Position = 1)]
+    [ValidateNotNullOrEmpty]
+    public string? Database { get; set; }
+
+    [Parameter(Mandatory = true, ParameterSetName = CredentialSet)]
+    [Parameter(ParameterSetName = UserPromptSet)]
+    [Parameter(Mandatory = true, ParameterSetName = CertificateSet)]
+    [Parameter(Mandatory = true, ParameterSetName = CertificateThumbprintSet)]
+    public string? Authority { get; set; }
 
     [Parameter(Mandatory = true, ParameterSetName = CredentialSet)]
     [Credential]
     public PSCredential Credential { get; set; } = null!;
 
-    [Parameter(Mandatory = true, ParameterSetName = CredentialSet)]
-    public string Authority { get; set; } = null!;
-
     [Parameter(ParameterSetName = IdentitySet)]
     public SwitchParameter Identity { get; set; }
+
+    [Parameter(ParameterSetName = UserPromptSet)]
+    public SwitchParameter UserPrompt { get; set; }
+
+    [Parameter(Mandatory = true, ParameterSetName = CertificateSet)]
+    [Parameter(Mandatory = true, ParameterSetName = CertificateThumbprintSet)]
+    public string AppId { get; set; } = null!;
+
+    [Parameter(Mandatory = true, ParameterSetName = CertificateSet)]
+    public X509Certificate2 Certificate { get; set; } = null!;
+
+    [Parameter(ParameterSetName = CertificateSet)]
+    public SwitchParameter UseTrustedIssuer { get; set; }
+
+    [Parameter(Mandatory = true, ParameterSetName = CertificateThumbprintSet)]
+    public string Thumbprint { get; set; } = null!;
 
     [Parameter]
     public ClientRequestProperties? RequestProperties { get; set; }
@@ -48,7 +75,9 @@ public sealed class ConnectKustoCommand : PSCmdlet
             new(ClientRequestProperties.OptionNoTruncation, NoTruncation.IsPresent)],
             null);
 
-        KustoConnectionStringBuilder builder = new(Cluster, Database);
+        KustoConnectionStringBuilder builder = Database is not null
+            ? new(ClusterUri, Database)
+            : new(ClusterUri);
 
         try
         {
@@ -60,9 +89,28 @@ public sealed class ConnectKustoCommand : PSCmdlet
 
                 CredentialSet => new KustoConnectionDetails(
                     builder.WithAadApplicationKeyAuthentication(
-                        Credential.UserName,
-                        Credential.GetNetworkCredential().Password,
-                        Authority),
+                        applicationClientId: Credential.UserName,
+                        applicationKey: Credential.GetNetworkCredential().Password,
+                        authority: Authority),
+                    RequestProperties),
+
+                UserPromptSet => new KustoConnectionDetails(
+                    builder.WithAadUserPromptAuthentication(authority: Authority),
+                    RequestProperties),
+
+                CertificateSet => new KustoConnectionDetails(
+                    builder.WithAadApplicationCertificateAuthentication(
+                        applicationClientId: AppId,
+                        applicationCertificate: Certificate,
+                        authority: Authority,
+                        sendX5c: UseTrustedIssuer),
+                    RequestProperties),
+
+                CertificateThumbprintSet => new KustoConnectionDetails(
+                    builder.WithAadApplicationThumbprintAuthentication(
+                        applicationClientId: AppId,
+                        applicationCertificateThumbprint: Thumbprint,
+                        authority: Authority),
                     RequestProperties),
 
                 _ => null
