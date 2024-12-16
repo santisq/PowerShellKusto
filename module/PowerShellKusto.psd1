@@ -8,7 +8,7 @@
 
 @{
     # Script module or binary module file associated with this manifest.
-    RootModule        = 'bin/netstandard2.0/PSUsing.dll'
+    RootModule        = 'bin/netstandard2.0/PowerShellKusto.dll'
 
     # Version number of this module.
     ModuleVersion     = '1.0.0'
@@ -29,7 +29,7 @@
     Copyright         = '(c) Santiago Squarzon. All rights reserved.'
 
     # Description of the functionality provided by this module
-    Description       = 'PowerShell Module that wraps Microsoft.Azure.Kusto.Tools'
+    Description       = 'PowerShell Module that wraps Microsoft.Azure.Kusto.Data & Microsoft.Azure.Kusto.Ingest'
 
     # Minimum version of the PowerShell engine required by this module
     PowerShellVersion = '5.1'
@@ -71,7 +71,9 @@
     FunctionsToExport = @()
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
-    CmdletsToExport   = @()
+    CmdletsToExport   = @(
+        'Connect-Kusto'
+    )
 
     # Variables to export from this module
     VariablesToExport = @()
@@ -93,17 +95,21 @@
         PSData = @{
             # Tags applied to this module. These help with module discovery in online galleries.
             Tags       = @(
-                'powershell'
                 'csharp'
+                'powershell'
+                'adx'
                 'kusto'
                 'kql'
+                'azuredataexplorer'
+                'kusto.data'
+                'kusto.ingest'
             )
 
             # A URL to the license for this module.
-            LicenseUri = 'https://www.github.com/santisq/KustoTools/blob/main/LICENSE'
+            LicenseUri = 'https://www.github.com/santisq/PowerShellKusto/blob/main/LICENSE'
 
             # A URL to the main website for this project.
-            ProjectUri = 'https://www.github.com/santisq/KustoTools'
+            ProjectUri = 'https://www.github.com/santisq/PowerShellKusto'
 
             # A URL to an icon representing this module.
             # IconUri = ''

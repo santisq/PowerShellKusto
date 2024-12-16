@@ -1,4 +1,4 @@
-name: PSUsing Workflow
+name: PowerShellKusto Workflow
 on:
   push:
     branches:

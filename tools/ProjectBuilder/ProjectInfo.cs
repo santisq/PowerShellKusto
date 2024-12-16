@@ -125,7 +125,7 @@ public sealed class ProjectInfo
         return xmlDocument
             .SelectSingleNode("Project/PropertyGroup/TargetFrameworks")
             .InnerText
-            .Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+            .Split([';'], StringSplitOptions.RemoveEmptyEntries);
     }
 
     private static string GetBuildPath(string path) =>
