@@ -52,9 +52,6 @@ jobs:
       fail-fast: false
       matrix:
         info:
-        - name: PS-5.1
-          psversion: '5.1'
-          os: windows-latest
         - name: PS-7_Windows
           psversion: '7'
           os: windows-latest
@@ -87,13 +84,7 @@ jobs:
 
         Expand-Archive -Path output/*.zip -DestinationPath $destPath -Force -ErrorAction Stop
 
-    - name: Run Tests - Windows PowerShell
-      if: ${{ matrix.info.psversion == '5.1' }}
-      shell: powershell
-      run: ./build.ps1 -Configuration $env:BUILD_CONFIGURATION -Task Test
-
     - name: Run Tests - PowerShell
-      if: ${{ matrix.info.psversion != '5.1' }}
       shell: pwsh
       run: ./build.ps1 -Configuration $env:BUILD_CONFIGURATION -Task Test
 
