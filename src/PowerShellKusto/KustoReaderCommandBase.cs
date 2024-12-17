@@ -23,7 +23,7 @@ public abstract class KustoReaderCommandBase : KustoCommandBase, IDynamicParamet
         get => _excludeHeaderParam is { ExcludeHeaders.IsPresent: not true };
     }
 
-    [Parameter(Position = 2)]
+    [Parameter(Position = 1)]
     public OutputType OutputType { get; set; } = OutputType.PSObject;
 
     public object? GetDynamicParameters()

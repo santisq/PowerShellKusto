@@ -13,7 +13,7 @@ public sealed class InvokeKustoQueryCommand : KustoReaderCommandBase
     [Parameter(Mandatory = true, Position = 0)]
     public string Query { get; set; } = null!;
 
-    [Parameter(Position = 1)]
+    [Parameter]
     [ValidateNotNullOrEmpty]
     public string? Database { get; set; }
 
