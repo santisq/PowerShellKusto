@@ -5,7 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using Kusto.Data;
 using Kusto.Data.Common;
 
-namespace PowerShellKusto;
+namespace PowerShellKusto.Commands;
 
 [Cmdlet(VerbsCommunications.Connect, "Kusto", DefaultParameterSetName = CredentialSet)]
 [OutputType(typeof(void))]

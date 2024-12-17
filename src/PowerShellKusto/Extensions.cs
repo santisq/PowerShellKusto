@@ -1,12 +1,35 @@
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Management.Automation;
+using System.Text;
+using Kusto.Cloud.Platform.Data;
 using Newtonsoft.Json.Linq;
 
 namespace PowerShellKusto;
 
 internal static class Extensions
 {
-    internal static PSObject ToPSObject(this JObject entries)
+    internal static string ToCsvString(this IDataReader reader, bool includeHeaders = true)
+    {
+        MemoryStream mem = new();
+        using (StreamWriter writer = new(mem))
+        {
+            reader.WriteAsCsv(includeHeaders, writer);
+        }
+
+        return Encoding.UTF8.GetString(mem.ToArray());
+    }
+
+    internal static IEnumerable<PSObject> ToEnumerablePSObject(this IDataReader reader)
+    {
+        foreach (JObject jObject in reader.ToJObjects())
+        {
+            yield return ToPSObject(jObject);
+        }
+    }
+
+    private static PSObject ToPSObject(JObject entries)
     {
         PSObject result = new(entries.Count);
         foreach (KeyValuePair<string, JToken?> entry in entries)
