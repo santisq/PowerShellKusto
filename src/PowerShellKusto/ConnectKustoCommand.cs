@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Management.Automation;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
@@ -8,6 +9,7 @@ using Kusto.Data.Common;
 namespace PowerShellKusto;
 
 [Cmdlet(VerbsCommunications.Connect, "Kusto")]
+[OutputType(typeof(void))]
 public sealed class ConnectKustoCommand : PSCmdlet
 {
     private const string CredentialSet = "Credential";
@@ -116,26 +118,28 @@ public sealed class ConnectKustoCommand : PSCmdlet
                 _ => null
             };
         }
-        catch (Exception ex)
+        catch (Exception exception)
         {
             ErrorRecord error = new(
-                ex, "AuthFailed", ErrorCategory.AuthenticationError, null);
+                exception, "AuthFailed", ErrorCategory.AuthenticationError, null);
 
             ThrowTerminatingError(error);
         }
     }
 
-    internal static void AssertConnected(PSCmdlet cmdlet)
+    internal static KustoConnectionDetails GetConnectionDetails(PSCmdlet cmdlet)
     {
         if (s_connectionDetails is null)
         {
             ErrorRecord error = new(
-                new AuthenticationException("Authentication required. Please call 'Connect-Kust'."),
+                new AuthenticationException("Authentication required. Please call 'Connect-Kusto'."),
                 "AuthRequired",
                 ErrorCategory.AuthenticationError,
                 null);
 
             cmdlet.ThrowTerminatingError(error);
         }
+
+        return (KustoConnectionDetails)s_connectionDetails;
     }
 }
