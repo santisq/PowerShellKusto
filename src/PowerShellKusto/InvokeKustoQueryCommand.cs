@@ -8,12 +8,11 @@ using System.Reflection;
 using Kusto.Cloud.Platform.Data;
 using Kusto.Data.Common;
 using Kusto.Data.Net.Client;
-using Microsoft.PowerShell.Commands;
 using Newtonsoft.Json.Linq;
 
 namespace PowerShellKusto;
 
-[Cmdlet(VerbsLifecycle.Invoke, "KustQuery", DefaultParameterSetName = ToJsonSet)]
+[Cmdlet(VerbsLifecycle.Invoke, "KustoQuery", DefaultParameterSetName = ToJsonSet)]
 [OutputType(typeof(string), ParameterSetName = [ToJsonSet])]
 [OutputType(typeof(PSObject), ParameterSetName = [ToEnumerableSet])]
 public sealed class InvokeKustoQueryCommand : PSCmdlet

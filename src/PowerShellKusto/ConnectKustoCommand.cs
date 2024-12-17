@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Management.Automation;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
@@ -8,15 +7,13 @@ using Kusto.Data.Common;
 
 namespace PowerShellKusto;
 
-[Cmdlet(VerbsCommunications.Connect, "Kusto")]
+[Cmdlet(VerbsCommunications.Connect, "Kusto", DefaultParameterSetName = CredentialSet)]
 [OutputType(typeof(void))]
 public sealed class ConnectKustoCommand : PSCmdlet
 {
     private const string CredentialSet = "Credential";
 
     private const string IdentitySet = "Identity";
-
-    private const string UserPromptSet = "UserPrompt";
 
     private const string CertificateSet = "Certificate";
 
@@ -33,7 +30,6 @@ public sealed class ConnectKustoCommand : PSCmdlet
     public string? Database { get; set; }
 
     [Parameter(Mandatory = true, ParameterSetName = CredentialSet)]
-    [Parameter(ParameterSetName = UserPromptSet)]
     [Parameter(Mandatory = true, ParameterSetName = CertificateSet)]
     [Parameter(Mandatory = true, ParameterSetName = CertificateThumbprintSet)]
     public string? Authority { get; set; }
@@ -44,9 +40,6 @@ public sealed class ConnectKustoCommand : PSCmdlet
 
     [Parameter(ParameterSetName = IdentitySet)]
     public SwitchParameter Identity { get; set; }
-
-    [Parameter(ParameterSetName = UserPromptSet)]
-    public SwitchParameter UserPrompt { get; set; }
 
     [Parameter(Mandatory = true, ParameterSetName = CertificateSet)]
     [Parameter(Mandatory = true, ParameterSetName = CertificateThumbprintSet)]
@@ -94,10 +87,6 @@ public sealed class ConnectKustoCommand : PSCmdlet
                         applicationClientId: Credential.UserName,
                         applicationKey: Credential.GetNetworkCredential().Password,
                         authority: Authority),
-                    RequestProperties),
-
-                UserPromptSet => new KustoConnectionDetails(
-                    builder.WithAadUserPromptAuthentication(authority: Authority),
                     RequestProperties),
 
                 CertificateSet => new KustoConnectionDetails(
