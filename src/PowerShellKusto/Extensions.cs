@@ -10,6 +10,8 @@ namespace PowerShellKusto;
 
 internal static class Extensions
 {
+    internal static DataTable ToDataTable(this IDataReader reader) => reader.ToDataSet().Tables[0];
+
     internal static string ToCsvString(this IDataReader reader, bool includeHeaders = true)
     {
         using MemoryStream mem = new();
