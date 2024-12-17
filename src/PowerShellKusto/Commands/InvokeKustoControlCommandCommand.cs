@@ -6,10 +6,8 @@ using Kusto.Data.Net.Client;
 
 namespace PowerShellKusto.Commands;
 
-[Cmdlet(VerbsLifecycle.Invoke, "KustoControlCommand", DefaultParameterSetName = AsJsonSet)]
-[OutputType(typeof(string), ParameterSetName = [AsJsonSet, AsCsvSet])]
-[OutputType(typeof(DataSet), ParameterSetName = [AsDataSetSet])]
-[OutputType(typeof(PSObject))]
+[Cmdlet(VerbsLifecycle.Invoke, "KustoControlCommand")]
+[OutputType(typeof(PSObject), typeof(string), typeof(DataTable))]
 public sealed class InvokeKustoControlCommandCommand : KustoReaderCommandBase
 {
     [Parameter(Mandatory = true, Position = 0)]

@@ -7,40 +7,54 @@ using Kusto.Data.Common;
 namespace PowerShellKusto;
 
 [EditorBrowsable(EditorBrowsableState.Never)]
-public abstract class KustoReaderCommandBase : KustoCommandBase
+public abstract class KustoReaderCommandBase : KustoCommandBase, IDynamicParameters
 {
-    protected const string AsJsonSet = "AsJson";
+    private DynamicParamTitle? _titleParam;
 
-    protected const string AsCsvSet = "AsCsv";
+    private DynamicParamExcludeHeader? _excludeHeaderParam;
 
-    protected const string AsDataSetSet = "AsDataSet";
+    private string Title { get => _titleParam!.Title; }
 
-    [Parameter(ParameterSetName = AsJsonSet)]
-    public SwitchParameter AsJson { get; set; }
+    private SwitchParameter ExcludeHeaders { get => _excludeHeaderParam!.ExcludeHeaders; }
 
-    [Parameter(ParameterSetName = AsCsvSet)]
-    public SwitchParameter AsCsv { get; set; }
+    [Parameter(Position = 3)]
+    public OutputType OutputType { get; set; } = OutputType.PSObject;
 
-    [Parameter(ParameterSetName = AsCsvSet)]
-    public SwitchParameter ExcludeHeaders { get; set; }
+    public object? GetDynamicParameters()
+    {
+        switch (OutputType)
+        {
+            case OutputType.Html:
+                _titleParam = new DynamicParamTitle();
+                return _titleParam;
 
-    [Parameter(ParameterSetName = AsDataSetSet)]
-    public SwitchParameter AsDataSet { get; set; }
+            case OutputType.Csv:
+                _excludeHeaderParam = new DynamicParamExcludeHeader();
+                return _excludeHeaderParam;
+
+            default:
+                return null;
+        }
+    }
 
     protected void HandleReader(IDataReader reader)
     {
-        switch (ParameterSetName)
+        switch (OutputType)
         {
-            case AsJsonSet:
+            case OutputType.Json:
                 WriteObject(reader.ToJsonString());
                 return;
 
-            case AsCsvSet:
+            case OutputType.Csv:
                 WriteObject(reader.ToCsvString(!ExcludeHeaders.IsPresent));
                 return;
 
-            case AsDataSetSet:
+            case OutputType.DataTable:
                 WriteObject(reader.ToDataSet().Tables[0]);
+                return;
+
+            case OutputType.Html:
+                WriteObject(reader.ToHtmlString(Title));
                 return;
 
             default:

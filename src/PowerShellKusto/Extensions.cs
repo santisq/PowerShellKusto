@@ -21,6 +21,17 @@ internal static class Extensions
         return Encoding.UTF8.GetString(mem.ToArray());
     }
 
+    internal static string ToHtmlString(this IDataReader reader, string title)
+    {
+        using MemoryStream mem = new();
+        using (StreamWriter writer = new(mem))
+        {
+            reader.WriteAsHtml(title, writer);
+        }
+
+        return Encoding.UTF8.GetString(mem.ToArray());
+    }
+
     internal static IEnumerable<PSObject> ToEnumerablePSObject(this IDataReader reader)
     {
         foreach (JObject jObject in reader.ToJObjects())
