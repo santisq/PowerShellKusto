@@ -74,6 +74,9 @@
     CmdletsToExport   = @(
         'Connect-Kusto'
         'Invoke-KustoQuery'
+        'Invoke-KustoControlCommand'
+        'Invoke-KustoIngestFromFile'
+        'Invoke-KustoIngestFromStream'
     )
 
     # Variables to export from this module
