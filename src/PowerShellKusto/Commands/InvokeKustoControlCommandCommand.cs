@@ -6,14 +6,14 @@ using Kusto.Data.Net.Client;
 
 namespace PowerShellKusto.Commands;
 
-[Cmdlet(VerbsLifecycle.Invoke, "KustoQuery")]
+[Cmdlet(VerbsLifecycle.Invoke, "KustoControlCommand")]
 [OutputType(typeof(string), ParameterSetName = [AsJsonSet, AsCsvSet])]
 [OutputType(typeof(DataSet), ParameterSetName = [AsDataSetSet])]
 [OutputType(typeof(PSObject))]
-public sealed class InvokeKustoQueryCommand : KustoReaderCommandBase
+public sealed class InvokeKustoControlCommandCommand : KustoReaderCommandBase
 {
     [Parameter(Mandatory = true, Position = 0)]
-    public string Query { get; set; } = null!;
+    public string Command { get; set; } = null!;
 
     [Parameter(Position = 1)]
     [ValidateNotNullOrEmpty]
@@ -23,16 +23,16 @@ public sealed class InvokeKustoQueryCommand : KustoReaderCommandBase
     {
         try
         {
-            using ICslQueryProvider provider = KustoClientFactory.CreateCslQueryProvider(Builder);
+            using ICslAdminProvider provider = KustoClientFactory.CreateCslAdminProvider(Builder);
             using IDataReader reader = Database is not null
-                ? provider.ExecuteQuery(Database, Query, Properties)
-                : provider.ExecuteQuery(Query, Properties);
+                ? provider.ExecuteControlCommand(Database, Command, Properties)
+                : provider.ExecuteControlCommand(Command, Properties);
 
             HandleReader(reader);
         }
         catch (Exception exception)
         {
-            ErrorRecord error = new(exception, "QueryError", ErrorCategory.ReadError, null);
+            ErrorRecord error = new(exception, "CommandError", ErrorCategory.SecurityError, null);
             WriteError(error);
         }
     }
