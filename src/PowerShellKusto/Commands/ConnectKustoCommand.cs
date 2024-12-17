@@ -23,7 +23,7 @@ public sealed class ConnectKustoCommand : PSCmdlet
     private static KustoConnectionDetails? s_connectionDetails;
 
     [Parameter(Mandatory = true, Position = 0)]
-    public string ClusterUri { get; set; } = null!;
+    public string Cluster { get; set; } = null!;
 
     [Parameter(Position = 1)]
     [ValidateNotNullOrEmpty]
@@ -32,7 +32,8 @@ public sealed class ConnectKustoCommand : PSCmdlet
     [Parameter(Mandatory = true, ParameterSetName = CredentialSet)]
     [Parameter(Mandatory = true, ParameterSetName = CertificateSet)]
     [Parameter(Mandatory = true, ParameterSetName = CertificateThumbprintSet)]
-    public string? Authority { get; set; }
+    [Alias("TenantId")]
+    public string Authority { get; set; } = null!;
 
     [Parameter(Mandatory = true, ParameterSetName = CredentialSet)]
     [Credential]
@@ -43,7 +44,8 @@ public sealed class ConnectKustoCommand : PSCmdlet
 
     [Parameter(Mandatory = true, ParameterSetName = CertificateSet)]
     [Parameter(Mandatory = true, ParameterSetName = CertificateThumbprintSet)]
-    public string AppId { get; set; } = null!;
+    [Alias("ApplicationId")]
+    public string ClientId { get; set; } = null!;
 
     [Parameter(Mandatory = true, ParameterSetName = CertificateSet)]
     public X509Certificate2 Certificate { get; set; } = null!;
@@ -71,8 +73,8 @@ public sealed class ConnectKustoCommand : PSCmdlet
             null);
 
         KustoConnectionStringBuilder builder = Database is not null
-            ? new(ClusterUri, Database)
-            : new(ClusterUri);
+            ? new(Cluster, Database)
+            : new(Cluster);
 
         try
         {
@@ -91,7 +93,7 @@ public sealed class ConnectKustoCommand : PSCmdlet
 
                 CertificateSet => new KustoConnectionDetails(
                     builder.WithAadApplicationCertificateAuthentication(
-                        applicationClientId: AppId,
+                        applicationClientId: ClientId,
                         applicationCertificate: Certificate,
                         authority: Authority,
                         sendX5c: UseTrustedIssuer),
@@ -99,7 +101,7 @@ public sealed class ConnectKustoCommand : PSCmdlet
 
                 CertificateThumbprintSet => new KustoConnectionDetails(
                     builder.WithAadApplicationThumbprintAuthentication(
-                        applicationClientId: AppId,
+                        applicationClientId: ClientId,
                         applicationCertificateThumbprint: Thumbprint,
                         authority: Authority),
                     RequestProperties),

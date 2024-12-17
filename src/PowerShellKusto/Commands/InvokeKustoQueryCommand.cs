@@ -2,7 +2,6 @@ using System;
 using System.Data;
 using System.Management.Automation;
 using Kusto.Cloud.Platform.Data;
-using Kusto.Cloud.Platform.Utils;
 using Kusto.Data;
 using Kusto.Data.Common;
 using Kusto.Data.Net.Client;
@@ -11,12 +10,15 @@ namespace PowerShellKusto.Commands;
 
 [Cmdlet(VerbsLifecycle.Invoke, "KustoQuery")]
 [OutputType(typeof(string), ParameterSetName = [AsJsonSet, AsCsvSet])]
+[OutputType(typeof(DataSet), ParameterSetName = [AsDataSetSet])]
 [OutputType(typeof(PSObject))]
 public sealed class InvokeKustoQueryCommand : PSCmdlet
 {
     private const string AsJsonSet = "AsJson";
 
     private const string AsCsvSet = "AsCsv";
+
+    private const string AsDataSetSet = "AsDataSet";
 
     [Parameter(Mandatory = true, Position = 0)]
     public string Query { get; set; } = null!;
@@ -34,10 +36,13 @@ public sealed class InvokeKustoQueryCommand : PSCmdlet
     [Parameter(ParameterSetName = AsCsvSet)]
     public SwitchParameter ExcludeHeaders { get; set; }
 
+    [Parameter(ParameterSetName = AsDataSetSet)]
+    public SwitchParameter AsDataSet { get; set; }
+
     protected override void EndProcessing()
     {
-        KustoConnectionDetails connection = ConnectKustoCommand.GetConnectionDetails(this);
-        (KustoConnectionStringBuilder builder, ClientRequestProperties properties) = connection;
+        (KustoConnectionStringBuilder builder, ClientRequestProperties properties) =
+            ConnectKustoCommand.GetConnectionDetails(this);
 
         try
         {
@@ -54,6 +59,10 @@ public sealed class InvokeKustoQueryCommand : PSCmdlet
 
                 case AsCsvSet:
                     WriteObject(reader.ToCsvString(!ExcludeHeaders.IsPresent));
+                    return;
+
+                case AsDataSetSet:
+                    WriteObject(reader.ToDataSet().Tables[0]);
                     return;
 
                 default:

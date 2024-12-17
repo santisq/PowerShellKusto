@@ -12,7 +12,7 @@ internal static class Extensions
 {
     internal static string ToCsvString(this IDataReader reader, bool includeHeaders = true)
     {
-        MemoryStream mem = new();
+        using MemoryStream mem = new();
         using (StreamWriter writer = new(mem))
         {
             reader.WriteAsCsv(includeHeaders, writer);
