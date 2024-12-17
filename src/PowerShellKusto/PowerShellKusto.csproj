@@ -12,7 +12,6 @@
     <PackageReference Include="Microsoft.Azure.Kusto.Data" Version="12.2.8" />
     <PackageReference Include="Microsoft.Azure.Kusto.Ingest" Version="12.2.8" />
     <PackageReference Include="System.Management.Automation" Version="7.2.0" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.PowerShell.Commands.Utility" Version="7.2.0" PrivateAssets="all" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">

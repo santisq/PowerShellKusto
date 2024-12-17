@@ -6,7 +6,7 @@ using Kusto.Data.Net.Client;
 
 namespace PowerShellKusto.Commands;
 
-[Cmdlet(VerbsLifecycle.Invoke, "KustoQuery")]
+[Cmdlet(VerbsLifecycle.Invoke, "KustoQuery", DefaultParameterSetName = AsJsonSet)]
 [OutputType(typeof(string), ParameterSetName = [AsJsonSet, AsCsvSet])]
 [OutputType(typeof(DataSet), ParameterSetName = [AsDataSetSet])]
 [OutputType(typeof(PSObject))]
