@@ -7,17 +7,19 @@ using Kusto.Data.Common;
 
 namespace PowerShellKusto.Commands;
 
-[Cmdlet(VerbsCommunications.Connect, "Kusto", DefaultParameterSetName = CredentialSet)]
+[Cmdlet(VerbsCommunications.Connect, "Kusto", DefaultParameterSetName = UserPromptSet)]
 [OutputType(typeof(void))]
 public sealed class ConnectKustoCommand : PSCmdlet
 {
-    private const string CredentialSet = "Credential";
+    private const string ClientCredentialSet = "Credential";
 
     private const string IdentitySet = "Identity";
 
     private const string CertificateSet = "Certificate";
 
     private const string CertificateThumbprintSet = "CertificateThumbprint";
+
+    private const string UserPromptSet = "UserPrompt";
 
     [ThreadStatic]
     private static KustoConnectionDetails? s_connectionDetails;
@@ -29,23 +31,24 @@ public sealed class ConnectKustoCommand : PSCmdlet
     [ValidateNotNullOrEmpty]
     public string? Database { get; set; }
 
-    [Parameter(Mandatory = true, ParameterSetName = CredentialSet)]
+    [Parameter(Mandatory = true, ParameterSetName = ClientCredentialSet)]
     [Parameter(Mandatory = true, ParameterSetName = CertificateSet)]
     [Parameter(Mandatory = true, ParameterSetName = CertificateThumbprintSet)]
     [Alias("TenantId")]
     public string Authority { get; set; } = null!;
 
-    [Parameter(Mandatory = true, ParameterSetName = CredentialSet)]
+    [Parameter(Mandatory = true, ParameterSetName = ClientCredentialSet)]
     [Credential]
-    public PSCredential Credential { get; set; } = null!;
+    public PSCredential ClientSecretCredential { get; set; } = null!;
 
     [Parameter(ParameterSetName = IdentitySet)]
     public SwitchParameter Identity { get; set; }
 
     [Parameter(Mandatory = true, ParameterSetName = CertificateSet)]
     [Parameter(Mandatory = true, ParameterSetName = CertificateThumbprintSet)]
+    [Parameter(ParameterSetName = IdentitySet)]
     [Alias("ApplicationId")]
-    public string ClientId { get; set; } = null!;
+    public string? ClientId { get; set; }
 
     [Parameter(Mandatory = true, ParameterSetName = CertificateSet)]
     public X509Certificate2 Certificate { get; set; } = null!;
@@ -55,6 +58,9 @@ public sealed class ConnectKustoCommand : PSCmdlet
 
     [Parameter(Mandatory = true, ParameterSetName = CertificateThumbprintSet)]
     public string Thumbprint { get; set; } = null!;
+
+    [Parameter(ParameterSetName = UserPromptSet)]
+    public SwitchParameter UserPrompt { get; set; }
 
     [Parameter]
     public ClientRequestProperties? RequestProperties { get; set; }
@@ -69,7 +75,7 @@ public sealed class ConnectKustoCommand : PSCmdlet
     {
         RequestProperties ??= new ClientRequestProperties([
             new(ClientRequestProperties.OptionServerTimeout, ServerTimeout),
-            new(ClientRequestProperties.OptionNoTruncation, NoTruncation.IsPresent)],
+            new(ClientRequestProperties.OptionNoTruncation, NoTruncation)],
             null);
 
         KustoConnectionStringBuilder builder = Database is not null
@@ -80,14 +86,22 @@ public sealed class ConnectKustoCommand : PSCmdlet
         {
             s_connectionDetails = ParameterSetName switch
             {
-                IdentitySet => new KustoConnectionDetails(
-                    builder.WithAadSystemManagedIdentity(),
+                UserPromptSet => new KustoConnectionDetails(
+                    builder.WithAadUserPromptAuthentication(),
                     RequestProperties),
 
-                CredentialSet => new KustoConnectionDetails(
+                IdentitySet => ClientId is null
+                    ? new KustoConnectionDetails(
+                        builder.WithAadUserManagedIdentity(ClientId),
+                        RequestProperties)
+                    : new KustoConnectionDetails(
+                        builder.WithAadSystemManagedIdentity(),
+                        RequestProperties),
+
+                ClientCredentialSet => new KustoConnectionDetails(
                     builder.WithAadApplicationKeyAuthentication(
-                        applicationClientId: Credential.UserName,
-                        applicationKey: Credential.GetNetworkCredential().Password,
+                        applicationClientId: ClientSecretCredential.UserName,
+                        applicationKey: ClientSecretCredential.GetNetworkCredential().Password,
                         authority: Authority),
                     RequestProperties),
 
