@@ -66,7 +66,8 @@ public sealed class ConnectKustoCommand : PSCmdlet
     public ClientRequestProperties? RequestProperties { get; set; }
 
     [Parameter]
-    public TimeSpan ServerTimeout { get; set; } = TimeSpan.FromMinutes(10);
+    [ValidateTimespan]
+    public TimeSpan ServerTimeout { get; set; } = TimeSpan.FromSeconds(60);
 
     [Parameter]
     public SwitchParameter NoTruncation { get; set; }
