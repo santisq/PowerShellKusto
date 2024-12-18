@@ -11,16 +11,16 @@ public abstract class KustoReaderCommandBase : KustoCommandBase, IDynamicParamet
 {
     private DynamicParamTitle? _titleParam;
 
-    private DynamicParamExcludeHeader? _excludeHeaderParam;
+    private DynamicParamNoHeader? _noHeaderParam;
 
     private string Title
     {
         get => _titleParam?.Title ?? string.Empty;
     }
 
-    private bool ExcludeHeaders
+    private bool NoHeader
     {
-        get => _excludeHeaderParam is { ExcludeHeaders.IsPresent: not true };
+        get => _noHeaderParam is { NoHeader.IsPresent: not true };
     }
 
     [Parameter(Position = 1)]
@@ -35,8 +35,8 @@ public abstract class KustoReaderCommandBase : KustoCommandBase, IDynamicParamet
                 return _titleParam;
 
             case OutputType.Csv:
-                _excludeHeaderParam = new DynamicParamExcludeHeader();
-                return _excludeHeaderParam;
+                _noHeaderParam = new DynamicParamNoHeader();
+                return _noHeaderParam;
 
             default:
                 return null;
@@ -52,7 +52,7 @@ public abstract class KustoReaderCommandBase : KustoCommandBase, IDynamicParamet
                 return;
 
             case OutputType.Csv:
-                WriteObject(reader.ToCsvString(ExcludeHeaders));
+                WriteObject(reader.ToCsvString(NoHeader));
                 return;
 
             case OutputType.DataTable:

@@ -1,9 +1,9 @@
 using System.Management.Automation;
 
-internal sealed class DynamicParamExcludeHeader
+internal sealed class DynamicParamNoHeader
 {
     [Parameter]
-    public SwitchParameter ExcludeHeaders { get; set; }
+    public SwitchParameter NoHeader { get; set; }
 }
 
 internal sealed class DynamicParamTitle
