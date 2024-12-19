@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Invoke-KustoIngestFromStream
+# New-KustoClientRequestProperties
 
 ## SYNOPSIS
 
@@ -14,16 +14,14 @@ schema: 2.0.0
 ## SYNTAX
 
 ```powershell
-Invoke-KustoIngestFromStream
-    [-Stream] <Stream>
-    [-Table] <String>
-    [-Database <String>]
-    [-LeaveOpen]
-    [-Mapping <IngestionMapping>]
-    [-Format <DataSourceFormat>]
-    [-IgnoreFirstRecord]
-    [-MaxRetries <Int32>]
-    [-RetryDelay <TimeSpan>]
+New-KustoClientRequestProperties
+    [-Application <String>]
+    [-User <String>]
+    [-ClientRequestId <String>]
+    [-Parameters <Hashtable>]
+    [-Options <Hashtable>]
+    [-NoTruncation]
+    [-ServerTimeout <TimeSpan>]
     [<CommonParameters>]
 ```
 
@@ -43,9 +41,9 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -Database
+### -Application
 
-{{ Fill Database Description }}
+{{ Fill Application Description }}
 
 ```yaml
 Type: String
@@ -59,15 +57,14 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Format
+### -ClientRequestId
 
-{{ Fill Format Description }}
+{{ Fill ClientRequestId Description }}
 
 ```yaml
-Type: DataSourceFormat
+Type: String
 Parameter Sets: (All)
 Aliases:
-Accepted values: csv, tsv, scsv, sohsv, psv, txt, raw, tsve, w3clogfile, apacheavro, orc, sstream, parquet, avro, multijson, singlejson, json
 
 Required: False
 Position: Named
@@ -76,9 +73,9 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -IgnoreFirstRecord
+### -NoTruncation
 
-{{ Fill IgnoreFirstRecord Description }}
+{{ Fill NoTruncation Description }}
 
 ```yaml
 Type: SwitchParameter
@@ -87,33 +84,17 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -LeaveOpen
+### -Options
 
-{{ Fill LeaveOpen Description }}
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Mapping
-
-{{ Fill Mapping Description }}
+{{ Fill Options Description }}
 
 ```yaml
-Type: IngestionMapping
+Type: Hashtable
 Parameter Sets: (All)
 Aliases:
 
@@ -124,12 +105,12 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -MaxRetries
+### -Parameters
 
-{{ Fill MaxRetries Description }}
+{{ Fill Parameters Description }}
 
 ```yaml
-Type: Int32
+Type: Hashtable
 Parameter Sets: (All)
 Aliases:
 
@@ -140,9 +121,9 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -RetryDelay
+### -ServerTimeout
 
-{{ Fill RetryDelay Description }}
+{{ Fill ServerTimeout Description }}
 
 ```yaml
 Type: TimeSpan
@@ -156,33 +137,17 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Stream
+### -User
 
-{{ Fill Stream Description }}
-
-```yaml
-Type: Stream
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 0
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Table
-
-{{ Fill Table Description }}
+{{ Fill User Description }}
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 1
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -206,7 +171,8 @@ Accept wildcard characters: False
 
 ### CommonParameters
 
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters.
+For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
@@ -214,7 +180,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Kusto.Ingest.IKustoIngestionResult
+### Kusto.Data.Common.ClientRequestProperties
 
 ## NOTES
 

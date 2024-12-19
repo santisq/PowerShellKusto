@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Invoke-KustoControlCommand
+# New-KustoColumnMapping
 
 ## SYNOPSIS
 
@@ -14,11 +14,10 @@ schema: 2.0.0
 ## SYNTAX
 
 ```powershell
-Invoke-KustoControlCommand
-    [-Command] <String>
-    [-Database <String>]
-    [[-OutputType] <OutputType>]
-    [-RequestProperties <ClientRequestProperties>]
+New-KustoColumnMapping
+    [-Name] <String>
+    [[-Type] <ColumnType>]
+    [[-Properties] <Hashtable>]
     [<CommonParameters>]
 ```
 
@@ -38,9 +37,9 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -Command
+### -Name
 
-{{ Fill Command Description }}
+{{ Fill Name Description }}
 
 ```yaml
 Type: String
@@ -54,31 +53,31 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Database
+### -Properties
 
-{{ Fill Database Description }}
+{{ Fill Properties Description }}
 
 ```yaml
-Type: String
+Type: Hashtable
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -OutputType
+### -Type
 
-{{ Fill OutputType Description }}
+{{ Fill Type Description }}
 
 ```yaml
-Type: OutputType
+Type: ColumnType
 Parameter Sets: (All)
 Aliases:
-Accepted values: PSObject, Json, Csv, DataTable, Html
+Accepted values: bool, datetime, decimal, dynamic, guid, int, long, double, string, timespan
 
 Required: False
 Position: 1
@@ -87,14 +86,14 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -RequestProperties
+### -ProgressAction
 
-{{ Fill RequestProperties Description }}
+{{ Fill ProgressAction Description }}
 
 ```yaml
-Type: ClientRequestProperties
+Type: ActionPreference
 Parameter Sets: (All)
-Aliases:
+Aliases: proga
 
 Required: False
 Position: Named
@@ -114,11 +113,7 @@ For more information, see [about_CommonParameters](http://go.microsoft.com/fwlin
 
 ## OUTPUTS
 
-### System.Management.Automation.PSObject
-
-### System.String
-
-### System.Data.DataTable
+### Kusto.Data.Common.ColumnMapping
 
 ## NOTES
 

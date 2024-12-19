@@ -13,9 +13,13 @@ schema: 2.0.0
 
 ## SYNTAX
 
-```
-Invoke-KustoQuery [-Query] <String> [-Database <String>] [[-OutputType] <OutputType>]
- [-ProgressAction <ActionPreference>] [<CommonParameters>]
+```powershell
+Invoke-KustoQuery
+    [-Query] <String>
+    [-Database <String>]
+    [[-OutputType] <OutputType>]
+    [-RequestProperties <ClientRequestProperties>]
+    [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -91,6 +95,22 @@ Accept wildcard characters: False
 Type: ActionPreference
 Parameter Sets: (All)
 Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RequestProperties
+
+{{ Fill RequestProperties Description }}
+
+```yaml
+Type: ClientRequestProperties
+Parameter Sets: (All)
+Aliases:
 
 Required: False
 Position: Named

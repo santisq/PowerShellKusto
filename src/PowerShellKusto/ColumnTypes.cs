@@ -3,7 +3,7 @@ namespace PowerShellKusto;
 public enum ColumnType
 {
     @bool,
-    datetime,
+    @datetime,
     @decimal,
     @dynamic,
     @guid,

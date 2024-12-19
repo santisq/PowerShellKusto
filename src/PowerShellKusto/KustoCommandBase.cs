@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using System.Management.Automation;
 using Kusto.Data;
-using Kusto.Data.Common;
 using PowerShellKusto.Commands;
 
 namespace PowerShellKusto;

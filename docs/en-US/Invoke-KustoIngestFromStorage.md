@@ -14,9 +14,16 @@ schema: 2.0.0
 ## SYNTAX
 
 ```powershell
-Invoke-KustoIngestFromStorage [-Path] <String> [-Table] <String> [-Database <String>]
- [-Mapping <IngestionMapping>] [-Format <DataSourceFormat>] [-IgnoreFirstRecord] [-MaxRetries <Int32>]
- [-RetryDelay <TimeSpan>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Invoke-KustoIngestFromStorage
+    [-Path] <String>
+    [-Table] <String>
+    [-Database <String>]
+    [-Mapping <IngestionMapping>]
+    [-Format <DataSourceFormat>]
+    [-IgnoreFirstRecord]
+    [-MaxRetries <Int32>]
+    [-RetryDelay <TimeSpan>]
+    [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -79,7 +86,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -182,7 +189,8 @@ Accept wildcard characters: False
 
 ### CommonParameters
 
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters.
+For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

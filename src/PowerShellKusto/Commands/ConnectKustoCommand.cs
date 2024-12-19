@@ -3,7 +3,6 @@ using System.Management.Automation;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using Kusto.Data;
-using Kusto.Data.Common;
 
 namespace PowerShellKusto.Commands;
 

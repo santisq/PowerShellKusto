@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Invoke-KustoControlCommand
+# New-KustoIngestionMapping
 
 ## SYNOPSIS
 
@@ -14,11 +14,10 @@ schema: 2.0.0
 ## SYNTAX
 
 ```powershell
-Invoke-KustoControlCommand
-    [-Command] <String>
-    [-Database <String>]
-    [[-OutputType] <OutputType>]
-    [-RequestProperties <ClientRequestProperties>]
+New-KustoIngestionMapping
+    [-Kind <IngestionMappingKind>]
+    [-Reference <String>]
+    [-Columns <ColumnMapping[]>]
     [<CommonParameters>]
 ```
 
@@ -38,25 +37,42 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -Command
+### -Columns
 
-{{ Fill Command Description }}
+{{ Fill Columns Description }}
 
 ```yaml
-Type: String
+Type: ColumnMapping[]
 Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 0
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Database
+### -Kind
 
-{{ Fill Database Description }}
+{{ Fill Kind Description }}
+
+```yaml
+Type: IngestionMappingKind
+Parameter Sets: (All)
+Aliases:
+Accepted values: Unknown, Csv, Json, Avro, Parquet, SStream, Orc, ApacheAvro, W3CLogFile
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Reference
+
+{{ Fill Reference Description }}
 
 ```yaml
 Type: String
@@ -70,31 +86,14 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -OutputType
+### -ProgressAction
 
-{{ Fill OutputType Description }}
-
-```yaml
-Type: OutputType
-Parameter Sets: (All)
-Aliases:
-Accepted values: PSObject, Json, Csv, DataTable, Html
-
-Required: False
-Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -RequestProperties
-
-{{ Fill RequestProperties Description }}
+{{ Fill ProgressAction Description }}
 
 ```yaml
-Type: ClientRequestProperties
+Type: ActionPreference
 Parameter Sets: (All)
-Aliases:
+Aliases: proga
 
 Required: False
 Position: Named
@@ -114,11 +113,7 @@ For more information, see [about_CommonParameters](http://go.microsoft.com/fwlin
 
 ## OUTPUTS
 
-### System.Management.Automation.PSObject
-
-### System.String
-
-### System.Data.DataTable
+### Kusto.Ingest.IngestionMapping
 
 ## NOTES
 
