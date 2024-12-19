@@ -221,7 +221,7 @@ This non mandatory parameter determines which Database in your Cluster will be t
 
 > [!TIP]
 >
-> The `Invoke-` cmdlets also offer supplying this value if it wasn't supplied during connection.
+> The `Invoke-` cmdlets also offer supplying this value if it wasn't provided during connection.
 
 ```yaml
 Type: String
