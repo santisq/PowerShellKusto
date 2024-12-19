@@ -7,7 +7,7 @@ using Kusto.Data.Common;
 
 namespace PowerShellKusto.Commands;
 
-[Cmdlet(VerbsCommunications.Connect, "Kusto", DefaultParameterSetName = ClientCredentialSet)]
+[Cmdlet(VerbsCommunications.Connect, "Kusto", DefaultParameterSetName = UserPromptSet)]
 [OutputType(typeof(void))]
 public sealed class ConnectKustoCommand : PSCmdlet
 {
@@ -34,8 +34,12 @@ public sealed class ConnectKustoCommand : PSCmdlet
     [Parameter(Mandatory = true, ParameterSetName = ClientCredentialSet)]
     [Parameter(Mandatory = true, ParameterSetName = CertificateSet)]
     [Parameter(Mandatory = true, ParameterSetName = CertificateThumbprintSet)]
+    [Parameter(ParameterSetName = UserPromptSet)]
     [Alias("TenantId")]
-    public string Authority { get; set; } = null!;
+    public string? Authority { get; set; }
+
+    [Parameter(ParameterSetName = UserPromptSet)]
+    public string? UserId { get; set; }
 
     [Parameter(Mandatory = true, ParameterSetName = ClientCredentialSet)]
     [Credential]
@@ -58,9 +62,6 @@ public sealed class ConnectKustoCommand : PSCmdlet
 
     [Parameter(Mandatory = true, ParameterSetName = CertificateThumbprintSet)]
     public string Thumbprint { get; set; } = null!;
-
-    [Parameter(ParameterSetName = UserPromptSet)]
-    public SwitchParameter UserPrompt { get; set; }
 
     [Parameter]
     public ClientRequestProperties? RequestProperties { get; set; }
@@ -88,7 +89,7 @@ public sealed class ConnectKustoCommand : PSCmdlet
             s_connectionDetails = ParameterSetName switch
             {
                 UserPromptSet => new KustoConnectionDetails(
-                    builder.WithAadUserPromptAuthentication(),
+                    builder.WithAadUserPromptAuthentication(Authority, UserId),
                     RequestProperties),
 
                 IdentitySet => ClientId is null
