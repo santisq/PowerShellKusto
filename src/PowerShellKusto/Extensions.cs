@@ -1,6 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
 using System.Management.Automation;
 using System.Text;
 using Kusto.Cloud.Platform.Data;
@@ -10,6 +12,13 @@ namespace PowerShellKusto;
 
 internal static class Extensions
 {
+    internal static Dictionary<string, string> ToDictionary(this Hashtable hashtable) =>
+        hashtable
+            .Cast<DictionaryEntry>()
+            .ToDictionary(
+                e => LanguagePrimitives.ConvertTo<string>(e.Key),
+                e => LanguagePrimitives.ConvertTo<string>(e.Value));
+
     internal static DataTable ToDataTable(this IDataReader reader) => reader.ToDataSet().Tables[0];
 
     internal static string ToCsvString(this IDataReader reader, bool includeHeaders = true)

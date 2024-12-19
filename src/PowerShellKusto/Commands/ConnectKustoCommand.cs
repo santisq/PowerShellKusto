@@ -7,11 +7,11 @@ using Kusto.Data.Common;
 
 namespace PowerShellKusto.Commands;
 
-[Cmdlet(VerbsCommunications.Connect, "Kusto", DefaultParameterSetName = UserPromptSet)]
+[Cmdlet(VerbsCommunications.Connect, "Kusto", DefaultParameterSetName = ClientCredentialSet)]
 [OutputType(typeof(void))]
 public sealed class ConnectKustoCommand : PSCmdlet
 {
-    private const string ClientCredentialSet = "Credential";
+    private const string ClientCredentialSet = "ClientCredential";
 
     private const string IdentitySet = "Identity";
 

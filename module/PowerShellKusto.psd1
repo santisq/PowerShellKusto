@@ -77,6 +77,8 @@
         'Invoke-KustoControlCommand'
         'Invoke-KustoIngestFromStorage'
         'Invoke-KustoIngestFromStream'
+        'New-KustoIngestionMapping'
+        'New-KustoColumnMapping'
     )
 
     # Variables to export from this module

@@ -10,4 +10,5 @@
   <ItemGroup>
     <InternalsVisibleTo Include="PowerShellKusto" />
   </ItemGroup>
+
 </Project>
