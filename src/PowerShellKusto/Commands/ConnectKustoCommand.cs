@@ -25,7 +25,7 @@ public sealed class ConnectKustoCommand : PSCmdlet
     private static KustoConnectionDetails? s_connectionDetails;
 
     [Parameter(Mandatory = true, Position = 0)]
-    public string Cluster { get; set; } = null!;
+    public Uri Cluster { get; set; } = null!;
 
     [Parameter(Position = 1)]
     [ValidateNotNullOrEmpty]
@@ -80,8 +80,8 @@ public sealed class ConnectKustoCommand : PSCmdlet
             null);
 
         KustoConnectionStringBuilder builder = Database is not null
-            ? new(Cluster, Database)
-            : new(Cluster);
+            ? new(Cluster.ToString(), Database)
+            : new(Cluster.ToString());
 
         try
         {

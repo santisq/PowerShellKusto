@@ -8,7 +8,7 @@
 
 @{
     # Script module or binary module file associated with this manifest.
-    RootModule        = 'bin/net6/PowerShellKusto.dll'
+    RootModule        = 'PowerShellKusto.psm1'
 
     # Version number of this module.
     ModuleVersion     = '1.0.0'
@@ -29,7 +29,7 @@
     Copyright         = '(c) Santiago Squarzon. All rights reserved.'
 
     # Description of the functionality provided by this module
-    Description       = 'PowerShell Module that wraps Microsoft.Azure.Kusto.Data & Microsoft.Azure.Kusto.Ingest'
+    Description       = 'PowerShell Module for Azure Data Explorer management, query and ingestion'
 
     # Minimum version of the PowerShell engine required by this module
     PowerShellVersion = '7.2.0'
@@ -75,7 +75,7 @@
         'Connect-Kusto'
         'Invoke-KustoQuery'
         'Invoke-KustoControlCommand'
-        'Invoke-KustoIngestFromFile'
+        'Invoke-KustoIngestFromStorage'
         'Invoke-KustoIngestFromStream'
     )
 

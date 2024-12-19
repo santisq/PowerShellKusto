@@ -13,28 +13,27 @@ schema: 2.0.0
 
 ## SYNTAX
 
-### Credential
+### UserPrompt (Default)
 
 ```powershell
 Connect-Kusto
-    [-ClusterUri] <String>
+    -Cluster <String>
     [[-Database] <String>]
-    -Authority <String>
-    -Credential <PSCredential>
+    [-UserPrompt]
     [-RequestProperties <ClientRequestProperties>]
     [-ServerTimeout <TimeSpan>]
     [-NoTruncation]
     [<CommonParameters>]
 ```
 
-### UserPrompt
+### Credential
 
 ```powershell
 Connect-Kusto
-    [-ClusterUri] <String>
+    -Cluster <String>
     [[-Database] <String>]
-    [-Authority <String>]
-    [-UserPrompt]
+    -Authority <String>
+    -ClientSecretCredential <PSCredential>
     [-RequestProperties <ClientRequestProperties>]
     [-ServerTimeout <TimeSpan>]
     [-NoTruncation]
@@ -45,10 +44,10 @@ Connect-Kusto
 
 ```powershell
 Connect-Kusto
-    [-ClusterUri] <String>
+    -Cluster <String>
     [[-Database] <String>]
     -Authority <String>
-    -AppId <String>
+    -ClientId <String>
     -Certificate <X509Certificate2>
     [-UseTrustedIssuer]
     [-RequestProperties <ClientRequestProperties>]
@@ -61,10 +60,10 @@ Connect-Kusto
 
 ```powershell
 Connect-Kusto
-    [-ClusterUri] <String>
+    -Cluster <String>
     [[-Database] <String>]
     -Authority <String>
-    -AppId <String>
+    -ClientId <String>
     -Thumbprint <String>
     [-RequestProperties <ClientRequestProperties>]
     [-ServerTimeout <TimeSpan>]
@@ -76,9 +75,10 @@ Connect-Kusto
 
 ```powershell
 Connect-Kusto
-    [-ClusterUri] <String>
+    -Cluster <String>
     [[-Database] <String>]
     [-Identity]
+    [-ClientId <String>]
     [-RequestProperties <ClientRequestProperties>]
     [-ServerTimeout <TimeSpan>]
     [-NoTruncation]
@@ -101,22 +101,6 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -AppId
-
-{{ Fill AppId Description }}
-
-```yaml
-Type: String
-Parameter Sets: Certificate, CertificateThumbprint
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Authority
 
 {{ Fill Authority Description }}
@@ -124,21 +108,9 @@ Accept wildcard characters: False
 ```yaml
 Type: String
 Parameter Sets: Credential, Certificate, CertificateThumbprint
-Aliases:
+Aliases: TenantId
 
 Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-```yaml
-Type: String
-Parameter Sets: UserPrompt
-Aliases:
-
-Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -152,38 +124,6 @@ Accept wildcard characters: False
 ```yaml
 Type: X509Certificate2
 Parameter Sets: Certificate
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ClusterUri
-
-{{ Fill ClusterUri Description }}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 0
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Credential
-
-{{ Fill Credential Description }}
-
-```yaml
-Type: PSCredential
-Parameter Sets: Credential
 Aliases:
 
 Required: True
@@ -220,7 +160,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -236,7 +176,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -300,7 +240,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -316,6 +256,82 @@ Aliases:
 
 Required: False
 Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ClientId
+
+{{ Fill ClientId Description }}
+
+```yaml
+Type: String
+Parameter Sets: Certificate, CertificateThumbprint
+Aliases: ApplicationId
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+```yaml
+Type: String
+Parameter Sets: Identity
+Aliases: ApplicationId
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ClientSecretCredential
+
+{{ Fill ClientSecretCredential Description }}
+
+```yaml
+Type: PSCredential
+Parameter Sets: Credential
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Cluster
+
+{{ Fill Cluster Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -323,8 +339,7 @@ Accept wildcard characters: False
 
 ### CommonParameters
 
-This cmdlet supports the common parameters.
-For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
