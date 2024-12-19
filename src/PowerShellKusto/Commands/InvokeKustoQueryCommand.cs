@@ -23,8 +23,8 @@ public sealed class InvokeKustoQueryCommand : KustoReaderCommandBase
         {
             using ICslQueryProvider provider = KustoClientFactory.CreateCslQueryProvider(Builder);
             using IDataReader reader = Database is not null
-                ? provider.ExecuteQuery(Database, Query, Properties)
-                : provider.ExecuteQuery(Query, Properties);
+                ? provider.ExecuteQuery(Database, Query, RequestProperties)
+                : provider.ExecuteQuery(Query, RequestProperties);
 
             HandleReader(reader);
         }

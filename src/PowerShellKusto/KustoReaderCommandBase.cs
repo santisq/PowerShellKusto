@@ -26,6 +26,10 @@ public abstract class KustoReaderCommandBase : KustoCommandBase, IDynamicParamet
     [Parameter(Position = 1)]
     public OutputType OutputType { get; set; } = OutputType.PSObject;
 
+    [Parameter]
+    [ValidateNotNullOrEmpty]
+    public ClientRequestProperties? RequestProperties { get; set; }
+
     public object? GetDynamicParameters()
     {
         switch (OutputType)

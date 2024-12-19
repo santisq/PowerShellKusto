@@ -79,6 +79,7 @@
         'Invoke-KustoIngestFromStream'
         'New-KustoIngestionMapping'
         'New-KustoColumnMapping'
+        'New-KustoClientRequestProperties'
     )
 
     # Variables to export from this module

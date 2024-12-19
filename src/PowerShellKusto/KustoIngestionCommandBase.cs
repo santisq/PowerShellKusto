@@ -48,7 +48,7 @@ public abstract class KustoIngestionCommandBase : KustoCommandBase
         base.BeginProcessing();
 
         _ingestionProperties = new KustoIngestionProperties(
-            databaseName: Database ?? Builder.InitialCatalog,
+            databaseName: Database ?? Builder?.InitialCatalog,
             tableName: Table)
         {
             Format = Format,

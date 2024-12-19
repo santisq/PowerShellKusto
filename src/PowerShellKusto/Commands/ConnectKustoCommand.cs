@@ -22,7 +22,7 @@ public sealed class ConnectKustoCommand : PSCmdlet
     private const string UserPromptSet = "UserPrompt";
 
     [ThreadStatic]
-    private static KustoConnectionDetails? s_connectionDetails;
+    private static KustoConnectionStringBuilder? s_connectionSb;
 
     [Parameter(Mandatory = true, Position = 0)]
     public Uri Cluster { get; set; } = null!;
@@ -63,64 +63,39 @@ public sealed class ConnectKustoCommand : PSCmdlet
     [Parameter(Mandatory = true, ParameterSetName = CertificateThumbprintSet)]
     public string Thumbprint { get; set; } = null!;
 
-    [Parameter]
-    public ClientRequestProperties? RequestProperties { get; set; }
-
-    [Parameter]
-    [ValidateTimespan]
-    public TimeSpan ServerTimeout { get; set; } = TimeSpan.FromSeconds(60);
-
-    [Parameter]
-    public SwitchParameter NoTruncation { get; set; }
-
     protected override void EndProcessing()
     {
-        RequestProperties ??= new ClientRequestProperties([
-            new(ClientRequestProperties.OptionServerTimeout, ServerTimeout),
-            new(ClientRequestProperties.OptionNoTruncation, NoTruncation)],
-            null);
-
         KustoConnectionStringBuilder builder = Database is not null
             ? new(Cluster.ToString(), Database)
             : new(Cluster.ToString());
 
         try
         {
-            s_connectionDetails = ParameterSetName switch
+            s_connectionSb = ParameterSetName switch
             {
-                UserPromptSet => new KustoConnectionDetails(
-                    builder.WithAadUserPromptAuthentication(Authority, UserId),
-                    RequestProperties),
+                UserPromptSet => builder.WithAadUserPromptAuthentication(
+                    authority: Authority,
+                    userId: UserId),
 
                 IdentitySet => ClientId is null
-                    ? new KustoConnectionDetails(
-                        builder.WithAadUserManagedIdentity(ClientId),
-                        RequestProperties)
-                    : new KustoConnectionDetails(
-                        builder.WithAadSystemManagedIdentity(),
-                        RequestProperties),
+                    ? builder.WithAadUserManagedIdentity(managedIdentityClientId: ClientId)
+                    : builder.WithAadSystemManagedIdentity(),
 
-                ClientCredentialSet => new KustoConnectionDetails(
-                    builder.WithAadApplicationKeyAuthentication(
-                        applicationClientId: ClientSecretCredential.UserName,
-                        applicationKey: ClientSecretCredential.GetNetworkCredential().Password,
-                        authority: Authority),
-                    RequestProperties),
+                ClientCredentialSet => builder.WithAadApplicationKeyAuthentication(
+                    applicationClientId: ClientSecretCredential.UserName,
+                    applicationKey: ClientSecretCredential.GetNetworkCredential().Password,
+                    authority: Authority),
 
-                CertificateSet => new KustoConnectionDetails(
-                    builder.WithAadApplicationCertificateAuthentication(
-                        applicationClientId: ClientId,
-                        applicationCertificate: Certificate,
-                        authority: Authority,
-                        sendX5c: UseTrustedIssuer),
-                    RequestProperties),
+                CertificateSet => builder.WithAadApplicationCertificateAuthentication(
+                    applicationClientId: ClientId,
+                    applicationCertificate: Certificate,
+                    authority: Authority,
+                    sendX5c: UseTrustedIssuer),
 
-                CertificateThumbprintSet => new KustoConnectionDetails(
-                    builder.WithAadApplicationThumbprintAuthentication(
-                        applicationClientId: ClientId,
-                        applicationCertificateThumbprint: Thumbprint,
-                        authority: Authority),
-                    RequestProperties),
+                CertificateThumbprintSet => builder.WithAadApplicationThumbprintAuthentication(
+                    applicationClientId: ClientId,
+                    applicationCertificateThumbprint: Thumbprint,
+                    authority: Authority),
 
                 _ => null
             };
@@ -134,9 +109,9 @@ public sealed class ConnectKustoCommand : PSCmdlet
         }
     }
 
-    internal static KustoConnectionDetails GetConnectionDetails(PSCmdlet cmdlet)
+    internal static KustoConnectionStringBuilder GetConnectionBuilder(PSCmdlet cmdlet)
     {
-        if (s_connectionDetails is null)
+        if (s_connectionSb is null)
         {
             ErrorRecord error = new(
                 new AuthenticationException("Authentication required. Please call 'Connect-Kusto'."),
@@ -147,6 +122,6 @@ public sealed class ConnectKustoCommand : PSCmdlet
             cmdlet.ThrowTerminatingError(error);
         }
 
-        return (KustoConnectionDetails)s_connectionDetails;
+        return s_connectionSb;
     }
 }

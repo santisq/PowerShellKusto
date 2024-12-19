@@ -23,8 +23,8 @@ public sealed class InvokeKustoControlCommandCommand : KustoReaderCommandBase
         {
             using ICslAdminProvider provider = KustoClientFactory.CreateCslAdminProvider(Builder);
             using IDataReader reader = Database is not null
-                ? provider.ExecuteControlCommand(Database, Command, Properties)
-                : provider.ExecuteControlCommand(Command, Properties);
+                ? provider.ExecuteControlCommand(Database, Command, RequestProperties)
+                : provider.ExecuteControlCommand(Command, RequestProperties);
 
             HandleReader(reader);
         }
