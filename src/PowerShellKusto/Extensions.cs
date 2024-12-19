@@ -4,6 +4,8 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Management.Automation;
+using System.Net;
+using System.Security;
 using System.Text;
 using Kusto.Cloud.Platform.Data;
 using Newtonsoft.Json.Linq;
@@ -12,6 +14,9 @@ namespace PowerShellKusto;
 
 internal static class Extensions
 {
+    internal static string ToPlainText(this SecureString? secureString) =>
+        new NetworkCredential(string.Empty, secureString).Password;
+
     internal static Dictionary<string, string> ToDictionary(this Hashtable hashtable) =>
         hashtable
             .Cast<DictionaryEntry>()

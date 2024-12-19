@@ -9,7 +9,7 @@ schema: 2.0.0
 
 ## SYNOPSIS
 
-{{ Fill in the Synopsis }}
+Establishes a connection to a Kusto service endpoint.
 
 ## SYNTAX
 
@@ -42,7 +42,7 @@ Connect-Kusto
     -Cluster <Uri>
     [[-Database] <String>]
     -Authority <String>
-    -ClientId <String>
+    -ClientId <Guid>
     -Certificate <X509Certificate2>
     [-UseTrustedIssuer]
     [<CommonParameters>]
@@ -55,7 +55,7 @@ Connect-Kusto
     -Cluster <Uri>
     [[-Database] <String>]
     -Authority <String>
-    -ClientId <String>
+    -ClientId <Guid>
     -Thumbprint <String>
     [<CommonParameters>]
 ```
@@ -67,29 +67,113 @@ Connect-Kusto
     -Cluster <Uri>
     [[-Database] <String>]
     [-Identity]
-    [-ClientId <String>]
+    [-ClientId <Guid>]
+    [<CommonParameters>]
+```
+
+### UserToken
+
+```powershell
+Connect-Kusto
+    -Cluster <Uri>
+    [[-Database] <String>]
+    [-UserToken <SecureString>]
+    [<CommonParameters>]
+```
+
+### ApplicationToken
+
+```powershell
+Connect-Kusto -Cluster <Uri>
+    [[-Database] <String>]
+    [-ApplicationToken <SecureString>]
     [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 
-{{ Fill in the Description }}
+The `Connect-Kusto` command is the main entry point for the cmdlets in this module and it's used to establish a connection with your Azure Data Explorer. The authentication methods offered by this cmdlet are:
+
+- User prompt
+- System or User Managed Identity
+- Certificate via `X509Certificate2` or Thumbprint
+- Secret
+- User and Application Access Token
 
 ## EXAMPLES
 
-### Example 1
+### Example 1: Interactive authentication
 
 ```powershell
-PS C:\> {{ Add example code here }}
+Connect-Kusto https://myCluster.zone.kusto.windows.net
 ```
 
-{{ Add example description here }}
+Using this method the cmdlets in this module will prompt for authentication.
+
+### Example 2: Client Id and Secret
+
+```powershell
+$connectKustoSplat = @{
+    Cluster                = 'https://myCluster.zone.kusto.windows.net'
+    Authority              = 'myTenantId or Primary Domain'
+    ClientSecretCredential = [pscredential]::new(
+        'myClientId',
+        (ConvertTo-SecureString mySecret -AsPlainText))
+}
+Connect-Kusto @connectKustoSplat
+```
+
+> [!NOTE]
+>
+> For demo purposes, this example uses a hardcoded secret.
+> Ideally, you should get your credential object via Key Vault or `Get-Credential`
+
+### Example 3: System Managed Identity
+
+```powershell
+Connect-Kusto https://myCluster.zone.kusto.windows.net -Identity
+```
+
+### Example 4: User Managed Identity
+
+```powershell
+$connectKustoSplat = @{
+    Identity = $true
+    ClientId = '697183e1-a4b0-457a-aa71-9a6e3df5f029'
+    Cluster  = 'https://myCluster.zone.kusto.windows.net'
+}
+Connect-Kusto @connectKustoSplat
+```
+
+### Example 5: `X509Certificate2` Certificate
+
+```powershell
+$connectKustoSplat = @{
+    Certificate = Get-ChildItem Cert:\CurrentUser\My\$myCertThumbprint
+    ClientId    = '697183e1-a4b0-457a-aa71-9a6e3df5f029'
+    Cluster     = 'https://myCluster.zone.kusto.windows.net'
+    Authority   = 'myTenantId or Primary Domain'
+}
+Connect-Kusto @connectKustoSplat
+```
+
+### Example 6: Certificate Thumbprint
+
+```powershell
+$connectKustoSplat = @{
+    Thumbprint = $myCertThumbprint
+    ClientId   = '697183e1-a4b0-457a-aa71-9a6e3df5f029'
+    Cluster    = 'https://myCluster.zone.kusto.windows.net'
+    Authority  = 'myTenantId or Primary Domain'
+}
+Connect-Kusto @connectKustoSplat
+```
 
 ## PARAMETERS
 
 ### -Authority
 
-{{ Fill Authority Description }}
+The Tenant Id or Primary Domain where your Azure Data Explorer Cluster is located.
 
 ```yaml
 Type: String
@@ -117,7 +201,7 @@ Accept wildcard characters: False
 
 ### -Certificate
 
-{{ Fill Certificate Description }}
+An X.509 certificate supplied during invocation.
 
 ```yaml
 Type: X509Certificate2
@@ -133,7 +217,11 @@ Accept wildcard characters: False
 
 ### -Database
 
-{{ Fill Database Description }}
+This non mandatory parameter determines which Database in your Cluster will be targetted on queries and ingestion.
+
+> [!TIP]
+>
+> The `Invoke-` cmdlets also offer supplying this value if it wasn't supplied during connection.
 
 ```yaml
 Type: String
@@ -149,7 +237,7 @@ Accept wildcard characters: False
 
 ### -Identity
 
-{{ Fill Identity Description }}
+Connects using a System or User Managed Identity.
 
 ```yaml
 Type: SwitchParameter
@@ -165,7 +253,7 @@ Accept wildcard characters: False
 
 ### -Thumbprint
 
-{{ Fill Thumbprint Description }}
+The thumbprint of your certificate. The Certificate will be retrieved from the current user's certificate store.
 
 ```yaml
 Type: String
@@ -181,7 +269,7 @@ Accept wildcard characters: False
 
 ### -UseTrustedIssuer
 
-{{ Fill UseTrustedIssuer Description }}
+Uses Trusted Issuer feature of Entra ID.
 
 ```yaml
 Type: SwitchParameter
@@ -197,10 +285,10 @@ Accept wildcard characters: False
 
 ### -ClientId
 
-{{ Fill ClientId Description }}
+The Client Id of your Application.
 
 ```yaml
-Type: String
+Type: Guid
 Parameter Sets: Certificate, CertificateThumbprint
 Aliases: ApplicationId
 
@@ -212,7 +300,7 @@ Accept wildcard characters: False
 ```
 
 ```yaml
-Type: String
+Type: Guid
 Parameter Sets: Identity
 Aliases: ApplicationId
 
@@ -225,7 +313,7 @@ Accept wildcard characters: False
 
 ### -ClientSecretCredential
 
-{{ Fill ClientSecretCredential Description }}
+The PSCredential object provides the application ID and client secret for service principal credentials.
 
 ```yaml
 Type: PSCredential
@@ -241,7 +329,7 @@ Accept wildcard characters: False
 
 ### -Cluster
 
-{{ Fill Cluster Description }}
+The Azure Data Explorer Url to connect to.
 
 ```yaml
 Type: Uri
@@ -257,11 +345,51 @@ Accept wildcard characters: False
 
 ### -UserId
 
-{{ Fill UserId Description }}
+Performs user authentication with the indicated user name.
 
 ```yaml
 Type: String
 Parameter Sets: UserPrompt
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ApplicationToken
+
+Specifies an Application bearer token.
+
+> [!NOTE]
+>
+> Access tokens do timeout and you'll have to handle their refresh.
+
+```yaml
+Type: SecureString
+Parameter Sets: ApplicationToken
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UserToken
+
+Specifies an User bearer token.
+
+> [!NOTE]
+>
+> Access tokens do timeout and you'll have to handle their refresh.
+
+```yaml
+Type: SecureString
+Parameter Sets: UserToken
 Aliases:
 
 Required: False
@@ -289,3 +417,5 @@ This cmdlet produces no output.
 ## NOTES
 
 ## RELATED LINKS
+
+[__Kusto connection strings__](<https://learn.microsoft.com/en-us/kusto/api/connection-strings/kusto>)

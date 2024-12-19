@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Management.Automation;
+using System.Security;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using Kusto.Data;
@@ -19,6 +20,10 @@ public sealed class ConnectKustoCommand : PSCmdlet
     private const string CertificateThumbprintSet = "CertificateThumbprint";
 
     private const string UserPromptSet = "UserPrompt";
+
+    private const string UserTokenSet = "UserToken";
+
+    private const string ApplicationTokenSet = "ApplicationToken";
 
     [ThreadStatic]
     private static KustoConnectionStringBuilder? s_connectionSb;
@@ -51,7 +56,7 @@ public sealed class ConnectKustoCommand : PSCmdlet
     [Parameter(Mandatory = true, ParameterSetName = CertificateThumbprintSet)]
     [Parameter(ParameterSetName = IdentitySet)]
     [Alias("ApplicationId")]
-    public string? ClientId { get; set; }
+    public Guid? ClientId { get; set; }
 
     [Parameter(Mandatory = true, ParameterSetName = CertificateSet)]
     public X509Certificate2 Certificate { get; set; } = null!;
@@ -61,6 +66,15 @@ public sealed class ConnectKustoCommand : PSCmdlet
 
     [Parameter(Mandatory = true, ParameterSetName = CertificateThumbprintSet)]
     public string Thumbprint { get; set; } = null!;
+
+    [Parameter(ParameterSetName = UserTokenSet)]
+    [ValidateNotNull]
+    public SecureString? UserToken { get; set; }
+
+    [Parameter(ParameterSetName = ApplicationTokenSet)]
+    [ValidateNotNull]
+    public SecureString? ApplicationToken { get; set; }
+
 
     protected override void EndProcessing()
     {
@@ -72,12 +86,14 @@ public sealed class ConnectKustoCommand : PSCmdlet
         {
             s_connectionSb = ParameterSetName switch
             {
-                UserPromptSet => builder.WithAadUserPromptAuthentication(
-                    authority: Authority,
-                    userId: UserId),
+                UserTokenSet => builder
+                    .WithAadUserTokenAuthentication(UserToken.ToPlainText()),
 
-                IdentitySet => ClientId is null
-                    ? builder.WithAadUserManagedIdentity(managedIdentityClientId: ClientId)
+                ApplicationTokenSet => builder
+                    .WithAadApplicationTokenAuthentication(ApplicationToken.ToPlainText()),
+
+                IdentitySet => ClientId is not null
+                    ? builder.WithAadUserManagedIdentity(ClientId.ToString())
                     : builder.WithAadSystemManagedIdentity(),
 
                 ClientCredentialSet => builder.WithAadApplicationKeyAuthentication(
@@ -86,17 +102,19 @@ public sealed class ConnectKustoCommand : PSCmdlet
                     authority: Authority),
 
                 CertificateSet => builder.WithAadApplicationCertificateAuthentication(
-                    applicationClientId: ClientId,
+                    applicationClientId: ClientId.ToString(),
                     applicationCertificate: Certificate,
                     authority: Authority,
                     sendX5c: UseTrustedIssuer),
 
                 CertificateThumbprintSet => builder.WithAadApplicationThumbprintAuthentication(
-                    applicationClientId: ClientId,
+                    applicationClientId: ClientId.ToString(),
                     applicationCertificateThumbprint: Thumbprint,
                     authority: Authority),
 
-                _ => null
+                _ => builder.WithAadUserPromptAuthentication(
+                    authority: Authority,
+                    userId: UserId)
             };
         }
         catch (Exception exception)
