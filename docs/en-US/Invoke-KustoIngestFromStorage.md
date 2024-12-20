@@ -32,11 +32,36 @@ Invoke-KustoIngestFromStorage
 
 ## EXAMPLES
 
-### Example 1
+### Example 1: Ingest a local Csv file
 
 ```powershell
-PS C:\> {{ Add example code here }}
+Invoke-KustoIngestFromStorage .\myCsvFile.csv -Table myTable -Database myDb -IgnoreFirstRecord
 ```
+
+### Example 2: Ingest a Csv from Blob Storage
+
+```powershell
+$uri = 'https://myStorageAccount.blob.core.windows.net/my-container/myCsvFile.csv?sp=.....'
+Invoke-KustoIngestFromStorage $uri -Table myTable -Database myDb -IgnoreFirstRecord
+```
+
+This example demonstrates how you can ingest into `myTable` directly from a Storage Account using a SAS Key and URI link.
+
+### Example 3: Ingest a local Json
+
+```powershell
+# create a new Json to ingest
+Get-Process | Select-Object Id, Name | ConvertTo-Json | Set-Content myJson.json
+# create a new table
+Invoke-KustoControlCommand '.create table MyJsonTable(Id:int, Name:string)' -Database myDb
+# ingest the Json
+Invoke-KustoIngestFromStorage .\myJson.json -Table MyJsonTable -Database myDb -Format multijson
+```
+
+> [!NOTE]
+>
+> The reason `multijson` and not `json` format used in this example is because a Json array is considered as
+> `multijson` where as _JSON Lines_ corresponds to the `json` format. See [__The JSON format__](https://learn.microsoft.com/en-us/azure/data-explorer/ingest-json-formats?tabs=kusto-query-language#the-json-format) for more details.
 
 {{ Add example description here }}
 
