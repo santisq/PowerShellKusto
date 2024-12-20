@@ -9,7 +9,7 @@ schema: 2.0.0
 
 ## SYNOPSIS
 
-{{ Fill in the Synopsis }}
+Ingests local or blob storage files into Azure Data Explorer.
 
 ## SYNTAX
 
@@ -28,11 +28,13 @@ Invoke-KustoIngestFromStorage
 
 ## DESCRIPTION
 
-{{ Fill in the Description }}
+The `Invoke-KustoIngestFromStorage` cmdlet can be used to ingest local or blob storage files into a table
+on your Azure Data Explorer Cluster. For more details on Kusto ingestion, checkout
+[__Ingest from storage__](https://learn.microsoft.com/en-us/kusto/management/data-ingestion/ingest-from-storage?view=microsoft-fabric).
 
 ## EXAMPLES
 
-### Example 1: Ingest a local Csv file
+### Example 1: Ingest a local Csv
 
 ```powershell
 Invoke-KustoIngestFromStorage .\myCsvFile.csv -Table myTable -Database myDb -IgnoreFirstRecord
@@ -45,7 +47,8 @@ $uri = 'https://myStorageAccount.blob.core.windows.net/my-container/myCsvFile.cs
 Invoke-KustoIngestFromStorage $uri -Table myTable -Database myDb -IgnoreFirstRecord
 ```
 
-This example demonstrates how you can ingest into `myTable` directly from a Storage Account using a SAS Key and URI link.
+This example demonstrates how you can ingest into `myTable` directly from a Storage Account
+using a SAS Key and URI.
 
 ### Example 3: Ingest a local Json
 
@@ -63,13 +66,15 @@ Invoke-KustoIngestFromStorage .\myJson.json -Table MyJsonTable -Database myDb -F
 > The reason `multijson` format instead of `json` is used in this example is because a Json Array is considered as
 > `multijson` whereas _JSON Lines_ corresponds to the `json` format. See [__The JSON format__](https://learn.microsoft.com/en-us/azure/data-explorer/ingest-json-formats?tabs=kusto-query-language#the-json-format) for more details.
 
-{{ Add example description here }}
-
 ## PARAMETERS
 
 ### -Database
 
-{{ Fill Database Description }}
+This non mandatory parameter determines which Database in your Cluster will be targetted by your ingest command.
+
+> [!NOTE]
+>
+> If not supplied, the Database used will be the one specified when you called [`Connect-Kusto`](Connect-Kusto.md).
 
 ```yaml
 Type: String
@@ -85,13 +90,16 @@ Accept wildcard characters: False
 
 ### -Format
 
-{{ Fill Format Description }}
+This parameter determines the format of the file to be ingested. The default value is __`csv`__.
 
 ```yaml
 Type: DataSourceFormat
 Parameter Sets: (All)
 Aliases:
-Accepted values: csv, tsv, scsv, sohsv, psv, txt, raw, tsve, w3clogfile, apacheavro, orc, sstream, parquet, avro, multijson, singlejson, json
+Accepted values: csv, tsv, scsv, sohsv, psv, txt,
+                 raw, tsve, w3clogfile, apacheavro,
+                 orc, sstream, parquet, avro,
+                 multijson, singlejson, json
 
 Required: False
 Position: Named
@@ -102,7 +110,9 @@ Accept wildcard characters: False
 
 ### -IgnoreFirstRecord
 
-{{ Fill IgnoreFirstRecord Description }}
+This switch indicates that ingestion should ignore the first record of a file.
+This property is useful for files in `CSV` and similar formats,
+if the first record in the file are the column names.
 
 ```yaml
 Type: SwitchParameter
@@ -118,7 +128,12 @@ Accept wildcard characters: False
 
 ### -Mapping
 
-{{ Fill Mapping Description }}
+This optional parameter indicates how to map data from the source file to the actual columns in the table.
+You can define the format value with the relevant mapping type.
+
+To create a new mapping object, checkout [`New-KustoIngestionMapping`](New-KustoIngestionMapping.md) and [`New-KustoColumnMapping`](New-KustoColumnMapping.md) documentations.
+
+See [__data mappings__](https://learn.microsoft.com/en-us/kusto/management/mappings?view=microsoft-fabric) for more information.
 
 ```yaml
 Type: IngestionMapping
@@ -196,22 +211,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ProgressAction
-
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### CommonParameters
 
 This cmdlet supports the common parameters.
@@ -228,3 +227,9 @@ For more information, see [about_CommonParameters](http://go.microsoft.com/fwlin
 ## NOTES
 
 ## RELATED LINKS
+
+[__Ingest from storage__](https://learn.microsoft.com/en-us/kusto/management/data-ingestion/ingest-from-storage?view=microsoft-fabric)
+
+[__Data mappings__](https://learn.microsoft.com/en-us/kusto/management/mappings?view=microsoft-fabric)
+
+[__The JSON format__](https://learn.microsoft.com/en-us/azure/data-explorer/ingest-json-formats?tabs=kusto-query-language#the-json-format)

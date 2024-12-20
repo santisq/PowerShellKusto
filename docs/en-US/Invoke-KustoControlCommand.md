@@ -109,7 +109,7 @@ Accept wildcard characters: False
 
 ### -OutputType
 
-Determines the output type this cmdlet will produce. The default value is `PSObject`.
+Determines the output type this cmdlet will produce. The default value is __`PSObject`__.
 
 ```yaml
 Type: OutputType
