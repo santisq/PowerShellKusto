@@ -60,8 +60,8 @@ Invoke-KustoIngestFromStorage .\myJson.json -Table MyJsonTable -Database myDb -F
 
 > [!NOTE]
 >
-> The reason `multijson` and not `json` format used in this example is because a Json array is considered as
-> `multijson` where as _JSON Lines_ corresponds to the `json` format. See [__The JSON format__](https://learn.microsoft.com/en-us/azure/data-explorer/ingest-json-formats?tabs=kusto-query-language#the-json-format) for more details.
+> The reason `multijson` format instead of `json` format is used in this example is because a Json Array is considered as
+> `multijson` whereas _JSON Lines_ corresponds to the `json` format. See [__The JSON format__](https://learn.microsoft.com/en-us/azure/data-explorer/ingest-json-formats?tabs=kusto-query-language#the-json-format) for more details.
 
 {{ Add example description here }}
 
