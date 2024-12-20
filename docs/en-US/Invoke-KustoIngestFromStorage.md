@@ -162,7 +162,7 @@ Accept wildcard characters: False
 
 ### -Path
 
-The path or URI to the file to ingest.
+Specifies the path or URI to the file to ingest.
 
 ```yaml
 Type: String
