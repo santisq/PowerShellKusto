@@ -9,7 +9,7 @@ schema: 2.0.0
 
 ## SYNOPSIS
 
-{{ Fill in the Synopsis }}
+Invokes a KQL query over an Azure Data Explorer Cluster.
 
 ## SYNTAX
 
@@ -24,23 +24,49 @@ Invoke-KustoQuery
 
 ## DESCRIPTION
 
-{{ Fill in the Description }}
+The `Invoke-KustoQuery` cmdlet allows you to can be used to run
+[Kusto Query Language (KQL)](https://learn.microsoft.com/en-us/kusto/query/?view=microsoft-fabric) queries or
+[T-SQL](https://learn.microsoft.com/en-us/kusto/query/t-sql?view=microsoft-fabric) queries on the tables on a
+specified Database of your Azure Data Explorer Cluster.
 
 ## EXAMPLES
 
-### Example 1
+### Example 1: Run a KQL Query
 
 ```powershell
-PS C:\> {{ Add example code here }}
+Invoke-KustoQuery 'search * | summarize count() by $table'
 ```
 
-{{ Add example description here }}
+This examples shows how to get the log count summarized by each table.
+
+### Example 2: Run a KQL Query on specified Database
+
+```powershell
+Invoke-KustoQuery 'myTable | take 10' -Database myDb
+```
+
+### Example 3: Run a KQL Query with specified request properties
+
+```powershell
+$requestProps = New-KustoClientRequestProperties -NoTruncation -ServerTimeout '00:05:00'
+Invoke-KustoQuery 'myTable | project fooProp, barProp' -RequestProperties $requestProps
+```
+
+This example demonstrates how you can specify request properties for your query.
+See also [`New-KustoClientRequestProperties`](New-KustoClientRequestProperties.md) for more details.
+
+- In this case `-NoTruncation` is particularly useful to overcome the 500k row limit on your query.
+- `-ServerTimeout '00:05:00'` allows the query to run for at least 5 minutes before timing out.
 
 ## PARAMETERS
 
 ### -Database
 
-{{ Fill Database Description }}
+This non mandatory parameter determines which Database in your Cluster will be targetted by your ingest command.
+
+> [!NOTE]
+>
+> If not supplied, the Database used will be the one specified when you called [`Connect-Kusto`](Connect-Kusto.md).
 
 ```yaml
 Type: String
@@ -56,7 +82,7 @@ Accept wildcard characters: False
 
 ### -OutputType
 
-{{ Fill OutputType Description }}
+Determines the output type this cmdlet will produce. __The default value is `PSObject`__.
 
 ```yaml
 Type: OutputType
@@ -73,7 +99,7 @@ Accept wildcard characters: False
 
 ### -Query
 
-{{ Fill Query Description }}
+The KQL or T-SQL query you want to run against a specified Database in your Cluster.
 
 ```yaml
 Type: String
@@ -87,25 +113,10 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ProgressAction
-
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -RequestProperties
 
-{{ Fill RequestProperties Description }}
+Request properties control how a query or command executes and returns results.
+For creating a `ClientRequestProperties` object, checkout [`New-KustoClientRequestProperties`](New-KustoClientRequestProperties.md).
 
 ```yaml
 Type: ClientRequestProperties
@@ -142,3 +153,7 @@ By default, this cmdlet outputs `PSObject`.
 ## NOTES
 
 ## RELATED LINKS
+
+[Kusto Query Language (KQL)](https://learn.microsoft.com/en-us/kusto/query/?view=microsoft-fabric)
+
+[T-SQL](https://learn.microsoft.com/en-us/kusto/query/t-sql?view=microsoft-fabric)

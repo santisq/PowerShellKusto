@@ -9,7 +9,7 @@ schema: 2.0.0
 
 ## SYNOPSIS
 
-Ingests stream into Azure Data Explorer.
+Ingests Streams into Azure Data Explorer.
 
 ## SYNTAX
 

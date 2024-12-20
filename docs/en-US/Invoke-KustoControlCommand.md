@@ -9,7 +9,7 @@ schema: 2.0.0
 
 ## SYNOPSIS
 
-Invokes a management command over an Azure Data Explorer Cluster.
+Invokes management commands over an Azure Data Explorer Cluster.
 
 ## SYNTAX
 
@@ -109,7 +109,7 @@ Accept wildcard characters: False
 
 ### -OutputType
 
-Determines the output type this cmdlet will produce. The default value is __`PSObject`__.
+Determines the output type this cmdlet will produce. __The default value is `PSObject`__.
 
 ```yaml
 Type: OutputType
