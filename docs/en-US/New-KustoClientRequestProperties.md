@@ -1,7 +1,7 @@
 ---
 external help file: PowerShellKusto.dll-Help.xml
 Module Name: PowerShellKusto
-online version:
+online version: https://github.com/santisq/PowerShellKusto/blob/main/docs/en-US/New-KustoClientRequestProperties.md
 schema: 2.0.0
 ---
 
