@@ -9,7 +9,7 @@ schema: 2.0.0
 
 ## SYNOPSIS
 
-{{ Fill in the Synopsis }}
+Ingests stream into Azure Data Explorer.
 
 ## SYNTAX
 
@@ -29,23 +29,39 @@ Invoke-KustoIngestFromStream
 
 ## DESCRIPTION
 
-{{ Fill in the Description }}
+Similar to [`Invoke-KustoIngestFromStorage`](Invoke-KustoIngestFromStorage.md), the `Invoke-KustoIngestFromStream` allows you to ingest data into a table on your Azure Data Explorer Cluster, the only difference is the source being a
+[__Stream__](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream) instead of a path or URI.
 
 ## EXAMPLES
 
-### Example 1
+### Example 1: Ingest from a Memory Stream
 
 ```powershell
-PS C:\> {{ Add example code here }}
+$req = Invoke-WebRequest 'https://myStorageAccount.blob.core.windows.net/....'
+Invoke-KustoIngestFromStream $req.RawContentStream -Table myTable -Database myDb
 ```
 
-{{ Add example description here }}
+### Example 2: Ingest from a File Stream
+
+```powershell
+$fs = (Get-Item .\myJsonFile.json).OpenRead()
+Invoke-KustoIngestFromStream $fs -Table myTable -Database myDb -Format multijson
+```
+
+> [!NOTE]
+>
+> This example specifies a format of `multijson` instead `json` because a _JSON Array_ is classified as multijson, while _JSON Lines_ adhere to the `json` format.
+> See [__The JSON format__](https://learn.microsoft.com/en-us/azure/data-explorer/ingest-json-formats?tabs=kusto-query-language#the-json-format) for more details.
 
 ## PARAMETERS
 
 ### -Database
 
-{{ Fill Database Description }}
+This non mandatory parameter determines which Database in your Cluster will be targetted by your ingest command.
+
+> [!NOTE]
+>
+> If not supplied, the Database used will be the one specified when you called [`Connect-Kusto`](Connect-Kusto.md).
 
 ```yaml
 Type: String
@@ -61,7 +77,7 @@ Accept wildcard characters: False
 
 ### -Format
 
-{{ Fill Format Description }}
+This parameter determines the format of the file to be ingested. The default value is __`csv`__.
 
 ```yaml
 Type: DataSourceFormat
@@ -71,14 +87,16 @@ Accepted values: csv, tsv, scsv, sohsv, psv, txt, raw, tsve, w3clogfile, apachea
 
 Required: False
 Position: Named
-Default value: None
+Default value: csv
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -IgnoreFirstRecord
 
-{{ Fill IgnoreFirstRecord Description }}
+This switch indicates that ingestion should ignore the first record of a file.
+This property is useful for files in `CSV` and similar formats,
+if the first record in the file are the column names.
 
 ```yaml
 Type: SwitchParameter
@@ -94,7 +112,7 @@ Accept wildcard characters: False
 
 ### -LeaveOpen
 
-{{ Fill LeaveOpen Description }}
+This switch specifies that the cmdlet should not dispose the Stream after ingestion.
 
 ```yaml
 Type: SwitchParameter
@@ -110,7 +128,12 @@ Accept wildcard characters: False
 
 ### -Mapping
 
-{{ Fill Mapping Description }}
+This optional parameter indicates how to map data from the source file to the actual columns in the table.
+You can define the format value with the relevant mapping type.
+
+To create a new mapping object, checkout [`New-KustoIngestionMapping`](New-KustoIngestionMapping.md) and [`New-KustoColumnMapping`](New-KustoColumnMapping.md) documentations.
+
+See [__data mappings__](https://learn.microsoft.com/en-us/kusto/management/mappings?view=microsoft-fabric) and [__Class `KustoIngestionProperties`__](https://learn.microsoft.com/en-us/kusto/api/netfx/kusto-ingest-client-reference?view=microsoft-fabric#class-kustoingestionproperties) for more information.
 
 ```yaml
 Type: IngestionMapping
@@ -126,7 +149,7 @@ Accept wildcard characters: False
 
 ### -MaxRetries
 
-{{ Fill MaxRetries Description }}
+Determines the total retry service calls when there is an ingestion failure. __The default retry value is 3__.
 
 ```yaml
 Type: Int32
@@ -142,7 +165,7 @@ Accept wildcard characters: False
 
 ### -RetryDelay
 
-{{ Fill RetryDelay Description }}
+Determines the time to wait before retrying. __The default value is 1 second__.
 
 ```yaml
 Type: TimeSpan
@@ -151,14 +174,14 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: [timespan] '00:00:01'
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -Stream
 
-{{ Fill Stream Description }}
+Specifies the Stream object to be ingested.
 
 ```yaml
 Type: Stream
@@ -174,7 +197,7 @@ Accept wildcard characters: False
 
 ### -Table
 
-{{ Fill Table Description }}
+Specifies the database table in your Cluster to ingest into.
 
 ```yaml
 Type: String
@@ -188,25 +211,10 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ProgressAction
-
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### CommonParameters
 
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters.
+For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
@@ -219,3 +227,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+
+[__Ingest from storage__](https://learn.microsoft.com/en-us/kusto/management/data-ingestion/ingest-from-storage?view=microsoft-fabric)
+
+[__Data mappings__](https://learn.microsoft.com/en-us/kusto/management/mappings?view=microsoft-fabric)
+
+[__The JSON format__](https://learn.microsoft.com/en-us/azure/data-explorer/ingest-json-formats?tabs=kusto-query-language#the-json-format)
+
+[__Stream__](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream)

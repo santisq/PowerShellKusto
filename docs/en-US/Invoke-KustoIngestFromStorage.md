@@ -146,7 +146,7 @@ Accept wildcard characters: False
 
 ### -MaxRetries
 
-Determines the total retry service calls when there is an ingestion failure.
+Determines the total retry service calls when there is an ingestion failure. __The default retry value is 3__.
 
 ```yaml
 Type: Int32
@@ -178,7 +178,7 @@ Accept wildcard characters: False
 
 ### -RetryDelay
 
-Determines the time to wait before retrying. The default value is __1 second__.
+Determines the time to wait before retrying. __The default value is 1 second__.
 
 ```yaml
 Type: TimeSpan
