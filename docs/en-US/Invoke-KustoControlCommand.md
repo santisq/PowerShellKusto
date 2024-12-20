@@ -24,7 +24,7 @@ Invoke-KustoControlCommand
 
 ## DESCRIPTION
 
-The `Invoke-KustoControlCommand` allows to invoke management commands also known as control commands over an Azure Data Explorer Cluster. For detailed information on this topic check out [__Management commands overview__](https://learn.microsoft.com/en-us/kusto/management/?view=microsoft-fabric).
+The `Invoke-KustoControlCommand` cmdlet allows you to invoke management commands also known as control commands over an Azure Data Explorer Cluster. For detailed information on this topic check out [__Management commands overview__](https://learn.microsoft.com/en-us/kusto/management/?view=microsoft-fabric).
 
 ## EXAMPLES
 

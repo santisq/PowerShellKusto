@@ -29,7 +29,9 @@ Invoke-KustoIngestFromStorage
 ## DESCRIPTION
 
 The `Invoke-KustoIngestFromStorage` cmdlet can be used to ingest local or blob storage files into a table
-on your Azure Data Explorer Cluster. For more details on Kusto ingestion, checkout
+on your Azure Data Explorer Cluster.
+For ingestion from a [__Stream__](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream) see [`Invoke-KustoIngestFromStream`](Invoke-KustoIngestFromStream.md).
+For more details on Kusto ingestion, checkout
 [__Ingest from storage__](https://learn.microsoft.com/en-us/kusto/management/data-ingestion/ingest-from-storage?view=microsoft-fabric).
 
 ## EXAMPLES

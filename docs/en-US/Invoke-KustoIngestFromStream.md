@@ -29,8 +29,7 @@ Invoke-KustoIngestFromStream
 
 ## DESCRIPTION
 
-Similar to [`Invoke-KustoIngestFromStorage`](Invoke-KustoIngestFromStorage.md), the `Invoke-KustoIngestFromStream` allows you to ingest data into a table on your Azure Data Explorer Cluster, the only difference is the source being a
-[__Stream__](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream) instead of a path or URI.
+Similar to [`Invoke-KustoIngestFromStorage`](Invoke-KustoIngestFromStorage.md), the `Invoke-KustoIngestFromStream` cmdlet allows you to ingest data into a table on your Azure Data Explorer Cluster, the only difference is the source being a [__Stream__](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream) instead of a path or URI.
 
 ## EXAMPLES
 
