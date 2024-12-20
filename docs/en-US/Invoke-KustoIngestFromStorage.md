@@ -63,8 +63,8 @@ Invoke-KustoIngestFromStorage .\myJson.json -Table MyJsonTable -Database myDb -F
 
 > [!NOTE]
 >
-> The reason `multijson` format instead of `json` is used in this example is because a Json Array is considered as
-> `multijson` whereas _JSON Lines_ corresponds to the `json` format. See [__The JSON format__](https://learn.microsoft.com/en-us/azure/data-explorer/ingest-json-formats?tabs=kusto-query-language#the-json-format) for more details.
+> This example specifies a format of `multijson` instead `json` because a _JSON Array_ is classified as multijson, while _JSON Lines_ adhere to the `json` format.
+> See [__The JSON format__](https://learn.microsoft.com/en-us/azure/data-explorer/ingest-json-formats?tabs=kusto-query-language#the-json-format) for more details.
 
 ## PARAMETERS
 
@@ -96,14 +96,11 @@ This parameter determines the format of the file to be ingested. The default val
 Type: DataSourceFormat
 Parameter Sets: (All)
 Aliases:
-Accepted values: csv, tsv, scsv, sohsv, psv, txt,
-                 raw, tsve, w3clogfile, apacheavro,
-                 orc, sstream, parquet, avro,
-                 multijson, singlejson, json
+Accepted values: csv, tsv, scsv, sohsv, psv, txt, raw, tsve, w3clogfile, apacheavro, orc, sstream, parquet, avro, multijson, singlejson, json
 
 Required: False
 Position: Named
-Default value: None
+Default value: csv
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -133,7 +130,7 @@ You can define the format value with the relevant mapping type.
 
 To create a new mapping object, checkout [`New-KustoIngestionMapping`](New-KustoIngestionMapping.md) and [`New-KustoColumnMapping`](New-KustoColumnMapping.md) documentations.
 
-See [__data mappings__](https://learn.microsoft.com/en-us/kusto/management/mappings?view=microsoft-fabric) for more information.
+See [__data mappings__](https://learn.microsoft.com/en-us/kusto/management/mappings?view=microsoft-fabric) and [__Class `KustoIngestionProperties`__](https://learn.microsoft.com/en-us/kusto/api/netfx/kusto-ingest-client-reference?view=microsoft-fabric#class-kustoingestionproperties) for more information.
 
 ```yaml
 Type: IngestionMapping
@@ -149,7 +146,7 @@ Accept wildcard characters: False
 
 ### -MaxRetries
 
-{{ Fill MaxRetries Description }}
+Determines the total retry service calls when there is an ingestion failure.
 
 ```yaml
 Type: Int32
@@ -158,14 +155,14 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: 3
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -Path
 
-{{ Fill Path Description }}
+The path or URI to the file to ingest.
 
 ```yaml
 Type: String
@@ -181,7 +178,7 @@ Accept wildcard characters: False
 
 ### -RetryDelay
 
-{{ Fill RetryDelay Description }}
+Determines the time to wait before retrying. The default value is __1 second__.
 
 ```yaml
 Type: TimeSpan
@@ -190,14 +187,14 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: [timespan] '00:00:01'
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -Table
 
-{{ Fill Table Description }}
+Specifies the database table in your Cluster to ingest into.
 
 ```yaml
 Type: String
