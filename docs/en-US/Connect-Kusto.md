@@ -71,22 +71,14 @@ Connect-Kusto
     [<CommonParameters>]
 ```
 
-### UserToken
+### AccessToken
 
 ```powershell
 Connect-Kusto
     -Cluster <Uri>
     [[-Database] <String>]
-    [-UserToken <SecureString>]
-    [<CommonParameters>]
-```
-
-### ApplicationToken
-
-```powershell
-Connect-Kusto -Cluster <Uri>
-    [[-Database] <String>]
-    [-ApplicationToken <SecureString>]
+    [-AccessToken <SecureString>]
+    [-TokenType <String>]
     [<CommonParameters>]
 ```
 
@@ -168,6 +160,22 @@ $connectKustoSplat = @{
 }
 Connect-Kusto @connectKustoSplat
 ```
+
+### Example 7: Access Token
+
+```powershell
+Connect-AzAccount
+$token = Get-AzAccessToken -ResourceUrl https://api.kusto.windows.net -AsSecureString
+
+$connectKustoSplat = @{
+    Cluster     = 'https://myCluster.zone.kusto.windows.net'
+    AccessToken = $token.Token
+}
+Connect-Kusto @connectKustoSplat
+```
+
+This example demonstrates how to request an Access Token on behalf of a User to the `https://api.kusto.windows.net` API.
+For simplicity, this example uses [`Get-AzAccessToken`](https://learn.microsoft.com/en-us/powershell/module/az.accounts/get-azaccesstoken) however the use of `Az.Accounts` Module isn't mandatory. See [__Get an access token__](https://learn.microsoft.com/en-us/kusto/api/rest/authentication#get-an-access-token) for more details.
 
 ## PARAMETERS
 
@@ -359,9 +367,9 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ApplicationToken
+### -AccessToken
 
-Specifies an Application bearer token.
+Specifies an Application or User bearer token.
 
 > [!NOTE]
 >
@@ -379,22 +387,19 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -UserToken
+### -TokenType
 
-Specifies an User bearer token.
-
-> [!NOTE]
->
-> Access tokens do timeout and you'll have to handle their refresh.
+Specifies if the bearer token is requested on behalf of a `User` or `Application`.
 
 ```yaml
-Type: SecureString
-Parameter Sets: UserToken
+Type: String
+Parameter Sets: AccessToken
 Aliases:
+Accepted values: User, Application
 
 Required: False
 Position: Named
-Default value: None
+Default value: User
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -418,4 +423,8 @@ This cmdlet produces no output.
 
 ## RELATED LINKS
 
-[__Kusto connection strings__](<https://learn.microsoft.com/en-us/kusto/api/connection-strings/kusto>)
+[__Kusto connection strings__](https://learn.microsoft.com/en-us/kusto/api/connection-strings/kusto)
+
+[__`Get-AzAccessToken`__](https://learn.microsoft.com/en-us/powershell/module/az.accounts/get-azaccesstoken)
+
+[__Get an access token__](https://learn.microsoft.com/en-us/kusto/api/rest/authentication#get-an-access-token)

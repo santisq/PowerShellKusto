@@ -21,9 +21,7 @@ public sealed class ConnectKustoCommand : PSCmdlet
 
     private const string UserPromptSet = "UserPrompt";
 
-    private const string UserTokenSet = "UserToken";
-
-    private const string ApplicationTokenSet = "ApplicationToken";
+    private const string AccessTokenSet = "AccessToken";
 
     [ThreadStatic]
     private static KustoConnectionStringBuilder? s_connectionSb;
@@ -67,30 +65,27 @@ public sealed class ConnectKustoCommand : PSCmdlet
     [Parameter(Mandatory = true, ParameterSetName = CertificateThumbprintSet)]
     public string Thumbprint { get; set; } = null!;
 
-    [Parameter(ParameterSetName = UserTokenSet)]
+    [Parameter(ParameterSetName = AccessTokenSet)]
     [ValidateNotNull]
-    public SecureString? UserToken { get; set; }
+    public SecureString? AccessToken { get; set; }
 
-    [Parameter(ParameterSetName = ApplicationTokenSet)]
-    [ValidateNotNull]
-    public SecureString? ApplicationToken { get; set; }
-
+    [Parameter(ParameterSetName = AccessTokenSet)]
+    [ValidateSet("User", "Application")]
+    public string TokenType { get; set; } = "User";
 
     protected override void EndProcessing()
     {
-        KustoConnectionStringBuilder builder = Database is not null
-            ? new(Cluster.ToString(), Database)
-            : new(Cluster.ToString());
-
         try
         {
+            KustoConnectionStringBuilder builder = Database is not null
+                ? new(Cluster.ToString(), Database)
+                : new(Cluster.ToString());
+
             s_connectionSb = ParameterSetName switch
             {
-                UserTokenSet => builder
-                    .WithAadUserTokenAuthentication(UserToken.ToPlainText()),
-
-                ApplicationTokenSet => builder
-                    .WithAadApplicationTokenAuthentication(ApplicationToken.ToPlainText()),
+                AccessTokenSet => TokenType == "User"
+                    ? builder.WithAadUserTokenAuthentication(AccessToken.ToPlainText())
+                    : builder.WithAadApplicationTokenAuthentication(AccessToken.ToPlainText()),
 
                 IdentitySet => ClientId is not null
                     ? builder.WithAadUserManagedIdentity(ClientId.ToString())
