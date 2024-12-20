@@ -6,7 +6,7 @@ using Kusto.Ingest;
 namespace PowerShellKusto.Commands;
 
 [Cmdlet(VerbsLifecycle.Invoke, "KustoIngestFromStream")]
-[OutputType(typeof(IKustoIngestionResult))]
+[OutputType(typeof(IngestionStatus))]
 public sealed class InvokeKustoIngestFromStreamCommand : KustoIngestionCommandBase
 {
     [Parameter(Mandatory = true, Position = 0)]
@@ -28,7 +28,9 @@ public sealed class InvokeKustoIngestFromStreamCommand : KustoIngestionCommandBa
                 stream: Stream,
                 ingestionProperties: IngestionProperties);
 
-            WriteObject(result);
+            WriteObject(
+                result.GetIngestionStatusCollection(),
+                enumerateCollection: true);
         }
         catch (Exception exception)
         {

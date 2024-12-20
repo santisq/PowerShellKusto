@@ -7,7 +7,7 @@ using Microsoft.PowerShell.Commands;
 namespace PowerShellKusto.Commands;
 
 [Cmdlet(VerbsLifecycle.Invoke, "KustoIngestFromStorage")]
-[OutputType(typeof(IKustoIngestionResult))]
+[OutputType(typeof(IngestionStatus))]
 public sealed class InvokeKustoIngestFromStorageCommand : KustoIngestionCommandBase
 {
     [Parameter(Mandatory = true, Position = 0)]
@@ -29,7 +29,9 @@ public sealed class InvokeKustoIngestFromStorageCommand : KustoIngestionCommandB
                 uri: Path,
                 ingestionProperties: IngestionProperties);
 
-            WriteObject(result);
+            WriteObject(
+                result.GetIngestionStatusCollection(),
+                enumerateCollection: true);
         }
         catch (Exception exception)
         {

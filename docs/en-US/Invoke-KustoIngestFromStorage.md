@@ -198,7 +198,7 @@ For more information, see [about_CommonParameters](http://go.microsoft.com/fwlin
 
 ## OUTPUTS
 
-### Kusto.Ingest.IKustoIngestionResult
+### Kusto.Ingest.IngestionStatus
 
 ## NOTES
 
