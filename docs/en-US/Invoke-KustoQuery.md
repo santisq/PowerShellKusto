@@ -24,7 +24,7 @@ Invoke-KustoQuery
 
 ## DESCRIPTION
 
-The `Invoke-KustoQuery` cmdlet allows you to can be used to run
+The `Invoke-KustoQuery` cmdlet allows you to run
 [Kusto Query Language (KQL)](https://learn.microsoft.com/en-us/kusto/query/?view=microsoft-fabric) queries or
 [T-SQL](https://learn.microsoft.com/en-us/kusto/query/t-sql?view=microsoft-fabric) queries on the tables on a
 specified Database of your Azure Data Explorer Cluster.
