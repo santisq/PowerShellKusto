@@ -9,7 +9,7 @@ schema: 2.0.0
 
 ## SYNOPSIS
 
-Invokes a KQL query over an Azure Data Explorer Cluster.
+Invokes a KQL or T-SQL query over an Azure Data Explorer Cluster.
 
 ## SYNTAX
 
