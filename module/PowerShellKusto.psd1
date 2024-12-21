@@ -80,6 +80,8 @@
         'New-KustoIngestionMapping'
         'New-KustoColumnMapping'
         'New-KustoClientRequestProperties'
+        'Set-KustoBatchingPolicy'
+        'Set-KustoIngestionMapping'
     )
 
     # Variables to export from this module

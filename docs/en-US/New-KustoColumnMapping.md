@@ -9,7 +9,7 @@ schema: 2.0.0
 
 ## SYNOPSIS
 
-{{ Fill in the Synopsis }}
+Creates a `ColumnMapping` object.
 
 ## SYNTAX
 

@@ -30,7 +30,7 @@ public sealed class InvokeKustoControlCommandCommand : KustoReaderCommandBase
         }
         catch (Exception exception)
         {
-            ErrorRecord error = new(exception, "CommandError", ErrorCategory.SecurityError, null);
+            ErrorRecord error = new(exception, "CommandError", ErrorCategory.NotSpecified, null);
             WriteError(error);
         }
     }
