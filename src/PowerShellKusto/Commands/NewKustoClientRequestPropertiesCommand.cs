@@ -34,7 +34,7 @@ public sealed class NewKustoClientRequestPropertiesCommand : PSCmdlet
 
     [Parameter]
     [ValidateTimespan]
-    public TimeSpan ServerTimeout { get; set; } = TimeSpan.FromSeconds(60);
+    public TimeSpan? ServerTimeout { get; set; }
 
     protected override void EndProcessing()
     {
@@ -60,8 +60,16 @@ public sealed class NewKustoClientRequestPropertiesCommand : PSCmdlet
             }
         }
 
-        properties.SetOption(ClientRequestProperties.OptionNoTruncation, NoTruncation);
-        properties.SetOption(ClientRequestProperties.OptionServerTimeout, ServerTimeout);
+        if (ServerTimeout is not null)
+        {
+            properties.SetOption(ClientRequestProperties.OptionServerTimeout, ServerTimeout);
+        }
+
+        if (NoTruncation)
+        {
+            properties.SetOption(ClientRequestProperties.OptionNoTruncation, NoTruncation);
+        }
+
         WriteObject(properties);
     }
 }

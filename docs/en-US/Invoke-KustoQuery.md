@@ -157,3 +157,5 @@ By default, this cmdlet outputs `PSObject`.
 [Kusto Query Language (KQL)](https://learn.microsoft.com/en-us/kusto/query/?view=microsoft-fabric)
 
 [T-SQL](https://learn.microsoft.com/en-us/kusto/query/t-sql?view=microsoft-fabric)
+
+[Send T-SQL queries via the REST API](https://learn.microsoft.com/en-us/kusto/api/rest/t-sql?view=microsoft-fabric)
