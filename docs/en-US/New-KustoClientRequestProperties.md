@@ -63,7 +63,7 @@ $requestProps = New-KustoClientRequestProperties -Options @{
 > [!TIP]
 >
 > Out of the supported request properties, this cmdlet only offers `-NoTruncation` (`notruncation`) and `-ServerTimeout` (`servertimeout`).
-> The `-Options` parameters offers adding extra options to your request that aren't by default available as a Parameter.
+> The `-Options` parameters is used to add extra options to your request that aren't by default available as a Parameter.  
 > See [__Supported request properties__](https://learn.microsoft.com/en-us/kusto/api/rest/request-properties?view=microsoft-fabric#supported-request-properties) for the additional options.
 
 ## PARAMETERS
