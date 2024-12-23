@@ -23,6 +23,10 @@ public abstract class KustoReaderCommandBase : KustoCommandBase, IDynamicParamet
         get => _noHeaderParam is { NoHeader.IsPresent: not true };
     }
 
+    [Parameter(Position = 1)]
+    [ValidateNotNullOrEmpty]
+    public string? Database { get; set; }
+
     [Parameter]
     public OutputType OutputType { get; set; } = OutputType.PSObject;
 

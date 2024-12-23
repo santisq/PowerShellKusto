@@ -45,13 +45,17 @@ PS C:\> {{ Add example code here }}
 
 {{ Fill Database Description }}
 
+> [!NOTE]
+>
+> If not supplied, the Database used will be the one specified when you called [`Connect-Kusto`](Connect-Kusto.md).
+
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -83,7 +87,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 0
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -91,7 +95,7 @@ Accept wildcard characters: False
 
 ### -OutputType
 
-{{ Fill OutputType Description }}
+Determines the output type this cmdlet will produce. __The default value is `PSObject`__.
 
 ```yaml
 Type: OutputType
@@ -124,7 +128,11 @@ Accept wildcard characters: False
 
 ### -RequestProperties
 
-{{ Fill RequestProperties Description }}
+Request properties control how a query or command executes and returns results. If no `ClientRequestProperties` object is supplied this cmdlet will use default properties.
+
+> [!NOTE]
+>
+> You can create new request properties using [New-KustoClientRequestProperties](New-KustoClientRequestProperties.md).
 
 ```yaml
 Type: ClientRequestProperties
@@ -148,7 +156,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 1
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

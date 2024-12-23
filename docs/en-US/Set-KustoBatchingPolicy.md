@@ -9,13 +9,13 @@ schema: 2.0.0
 
 ## SYNOPSIS
 
-{{ Fill in the Synopsis }}
+Sets ingestion batching policy on a Kusto Database or Table.
 
 ## SYNTAX
 
 ```powershell
 Set-KustoBatchingPolicy
-    [-Table] <String>
+    [[-Table] <String>]
     [[-Database] <String>]
     [-MaximumBatchingTimeSpan <TimeSpan>]
     [-MaximumNumberOfItems <Int32>]
@@ -27,23 +27,47 @@ Set-KustoBatchingPolicy
 
 ## DESCRIPTION
 
-{{ Fill in the Description }}
+The `Set-KustoBatchingPolicy` cmdlet is used to alter the batching policy of a Database or specific Table on an Azure Data Explorer Cluster. See [__Ingestion batching policy__](https://learn.microsoft.com/en-us/kusto/management/batching-policy?view=microsoft-fabric) for more details.
 
 ## EXAMPLES
 
-### Example 1
+### Example 1: Set new ingestion batching policy for a Table
 
 ```powershell
-PS C:\> {{ Add example code here }}
+$params = @{
+    MaximumBatchingTimeSpan = '00:00:30'
+    MaximumNumberOfItems    = 500
+    MaximumRawDataSizeMB    = 1024
+}
+Set-KustoBatchingPolicy -Table myTable -Database myDb @params
 ```
 
-{{ Add example description here }}
+This example alters the ingestion batching policy of `myTable` on `myDb` Database.
+
+### Example 2: Set new ingestion batching policy for a Database
+
+```powershell
+$params = @{
+    MaximumBatchingTimeSpan = '00:00:30'
+    MaximumNumberOfItems    = 500
+    MaximumRawDataSizeMB    = 1024
+}
+Set-KustoBatchingPolicy -Database myDb @params
+```
+
+> [!TIP]
+>
+> When `-Table` isn't specified, the ingestion batching policy is altered at Database level.
 
 ## PARAMETERS
 
 ### -Database
 
-{{ Fill Database Description }}
+Specifies the name of the Database for which to alter the ingestion batching policy.
+
+> [!NOTE]
+>
+> If not supplied, the Database used will be the one specified when you called [`Connect-Kusto`](Connect-Kusto.md).
 
 ```yaml
 Type: String
@@ -59,7 +83,7 @@ Accept wildcard characters: False
 
 ### -MaximumBatchingTimeSpan
 
-{{ Fill MaximumBatchingTimeSpan Description }}
+The time limit after which a batch is sealed. __The default value is 5 minutes__.
 
 ```yaml
 Type: TimeSpan
@@ -68,14 +92,14 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: [timespan] '00:05:00'
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -MaximumNumberOfItems
 
-{{ Fill MaximumNumberOfItems Description }}
+The number of files defined as the limit after which a batch is sealed. This setting should only be set in scenarios where you can control the data units, such as blobs or files. In message-based scenarios, such as Event Hubs, IoT Hub, and Azure Cosmos DB change feed, consider using the Time and Size settings to control batching. __The default value is 500 items__.
 
 ```yaml
 Type: Int32
@@ -84,14 +108,14 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: 500
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -MaximumRawDataSizeMB
 
-{{ Fill MaximumRawDataSizeMB Description }}
+The size limit after which a batch is sealed. __The default value is 1024 MB__.
 
 ```yaml
 Type: Int32
@@ -100,14 +124,14 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: 1024
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -OutputType
 
-{{ Fill OutputType Description }}
+Determines the output type this cmdlet will produce. __The default value is `PSObject`__.
 
 ```yaml
 Type: OutputType
@@ -124,7 +148,11 @@ Accept wildcard characters: False
 
 ### -RequestProperties
 
-{{ Fill RequestProperties Description }}
+Request properties control how a query or command executes and returns results. If no `ClientRequestProperties` object is supplied this cmdlet will use default properties.
+
+> [!NOTE]
+>
+> You can create new request properties using [New-KustoClientRequestProperties](New-KustoClientRequestProperties.md).
 
 ```yaml
 Type: ClientRequestProperties
@@ -140,14 +168,18 @@ Accept wildcard characters: False
 
 ### -Table
 
-{{ Fill Table Description }}
+Specifies the Table for which to alter the ingestion batching policy.
+
+> [!NOTE]
+>
+> This parameter is optional. If not specified, the ingestion batching policy is altered on Database level.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 0
 Default value: None
 Accept pipeline input: False
@@ -174,3 +206,9 @@ For more information, see [about_CommonParameters](http://go.microsoft.com/fwlin
 ## NOTES
 
 ## RELATED LINKS
+
+[__Ingestion batching policy__](https://learn.microsoft.com/en-us/kusto/management/batching-policy?view=microsoft-fabric)
+
+[__.alter database policy ingestionbatching command__](https://learn.microsoft.com/en-us/kusto/management/alter-database-ingestion-batching-policy?view=microsoft-fabric)
+
+[__Create a table's ingestion batching policy with the table batching policy wizard__](https://docs.azure.cn/en-us/data-explorer/table-batching-policy-wizard)

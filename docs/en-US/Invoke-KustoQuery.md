@@ -115,8 +115,11 @@ Accept wildcard characters: False
 
 ### -RequestProperties
 
-Request properties control how a query or command executes and returns results.
-For creating a `ClientRequestProperties` object, checkout [`New-KustoClientRequestProperties`](New-KustoClientRequestProperties.md).
+Request properties control how a query or command executes and returns results. If no `ClientRequestProperties` object is supplied this cmdlet will use default properties.
+
+> [!NOTE]
+>
+> You can create new request properties using [New-KustoClientRequestProperties](New-KustoClientRequestProperties.md).
 
 ```yaml
 Type: ClientRequestProperties

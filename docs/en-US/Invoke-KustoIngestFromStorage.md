@@ -17,7 +17,7 @@ Ingests local or blob storage files into Azure Data Explorer.
 Invoke-KustoIngestFromStorage
     [-Path] <String>
     [-Table] <String>
-    [-Database <String>]
+    [[-Database] <String>]
     [-Mapping <IngestionMapping>]
     [-Format <DataSourceFormat>]
     [-IgnoreFirstRecord]

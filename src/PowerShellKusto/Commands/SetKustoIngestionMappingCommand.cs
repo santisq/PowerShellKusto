@@ -12,13 +12,10 @@ namespace PowerShellKusto.Commands;
 public sealed class SetKustoIngestionMappingCommand : KustoReaderCommandBase
 {
     [Parameter(Mandatory = true, Position = 0)]
-    public string MappingName { get; set; } = null!;
-
-    [Parameter(Mandatory = true, Position = 1)]
     public string Table { get; set; } = null!;
 
-    [Parameter(Position = 2)]
-    public string? Database { get; set; }
+    [Parameter(Mandatory = true, Position = 2)]
+    public string MappingName { get; set; } = null!;
 
     [Parameter(Mandatory = true)]
     public IngestionMapping IngestionMapping { get; set; } = null!;
@@ -30,7 +27,7 @@ public sealed class SetKustoIngestionMappingCommand : KustoReaderCommandBase
     {
         try
         {
-            string? database = Database ?? Builder?.InitialCatalog;
+            Database ??= Builder?.InitialCatalog;
             using ICslAdminProvider client = KustoClientFactory.CreateCslAdminProvider(Builder);
             string command = CslCommandGenerator.GenerateTableMappingCreateCommand(
                 mappingKind: IngestionMapping.IngestionMappingKind,
@@ -40,8 +37,8 @@ public sealed class SetKustoIngestionMappingCommand : KustoReaderCommandBase
                 removeOldestIfRequired: RemoveOldestIfRequired);
 
             using IDataReader reader = RequestProperties is null
-                ? client.ExecuteControlCommand(database, command)
-                : client.ExecuteControlCommand(database, command, RequestProperties);
+                ? client.ExecuteControlCommand(Database, command)
+                : client.ExecuteControlCommand(Database, command, RequestProperties);
 
             HandleReader(reader);
         }

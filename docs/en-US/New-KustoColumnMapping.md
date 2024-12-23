@@ -76,7 +76,7 @@ Accept wildcard characters: False
 
 ### -Properties
 
-Property-bag containing properties specific for each mapping as described in each specific mapping type page. 
+Property-bag containing properties specific for each mapping as described in each specific mapping type page.
 
 ```yaml
 Type: Hashtable

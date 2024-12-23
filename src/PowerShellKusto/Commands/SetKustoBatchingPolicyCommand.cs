@@ -11,20 +11,17 @@ namespace PowerShellKusto.Commands;
 [OutputType(typeof(PSObject), typeof(string), typeof(DataTable))]
 public sealed class SetKustoBatchingPolicyCommand : KustoReaderCommandBase
 {
-    [Parameter(Mandatory = true, Position = 0)]
-    public string Table { get; set; } = null!;
-
-    [Parameter(Position = 1)]
+    [Parameter(Position = 0)]
     [ValidateNotNullOrEmpty]
-    public string? Database { get; set; }
+    public string? Table { get; set; }
 
     [Parameter]
     [ValidateTimespan]
-    public TimeSpan MaximumBatchingTimeSpan { get; set; } = TimeSpan.FromSeconds(10);
+    public TimeSpan MaximumBatchingTimeSpan { get; set; } = TimeSpan.FromMinutes(5);
 
     [Parameter]
     [ValidateRange(1, int.MaxValue)]
-    public int MaximumNumberOfItems { get; set; } = 100;
+    public int MaximumNumberOfItems { get; set; } = 500;
 
     [Parameter]
     [ValidateRange(1, int.MaxValue)]
@@ -34,15 +31,22 @@ public sealed class SetKustoBatchingPolicyCommand : KustoReaderCommandBase
     {
         try
         {
-            using ICslAdminProvider client = KustoClientFactory.CreateCslAdminProvider(Builder);
-            string command = CslCommandGenerator.GenerateTableAlterIngestionBatchingPolicyCommand(
-                databaseName: Database ?? Builder?.InitialCatalog,
-                tableName: Table,
-                ingestionBatchingPolicy: new IngestionBatchingPolicy(
+            Database ??= Builder?.InitialCatalog;
+            IngestionBatchingPolicy policy = new(
                     maximumBatchingTimeSpan: MaximumBatchingTimeSpan,
                     maximumNumberOfItems: MaximumNumberOfItems,
-                    maximumRawDataSizeMB: MaximumRawDataSizeMB));
+                    maximumRawDataSizeMB: MaximumRawDataSizeMB);
 
+            string command = Table is null
+                ? CslCommandGenerator.GenerateDatabaseAlterIngestionBatchingPolicyCommand(
+                    databaseName: Database,
+                    ingestionBatchingPolicy: policy)
+                : CslCommandGenerator.GenerateTableAlterIngestionBatchingPolicyCommand(
+                    databaseName: Database,
+                    tableName: Table,
+                    ingestionBatchingPolicy: policy);
+
+            using ICslAdminProvider client = KustoClientFactory.CreateCslAdminProvider(Builder);
             using IDataReader reader = RequestProperties is null
                 ? client.ExecuteControlCommand(command)
                 : client.ExecuteControlCommand(command, RequestProperties);
