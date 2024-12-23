@@ -14,7 +14,7 @@ public sealed class SetKustoBatchingPolicyCommand : KustoReaderCommandBase
     [Parameter(Mandatory = true, Position = 0)]
     public string Table { get; set; } = null!;
 
-    [Parameter]
+    [Parameter(Position = 1)]
     [ValidateNotNullOrEmpty]
     public string? Database { get; set; }
 

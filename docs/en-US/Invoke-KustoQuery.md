@@ -16,8 +16,8 @@ Invokes a KQL or T-SQL query over an Azure Data Explorer Cluster.
 ```powershell
 Invoke-KustoQuery
     [-Query] <String>
-    [-Database <String>]
-    [[-OutputType] <OutputType>]
+    [[-Database] <String>]
+    [-OutputType <OutputType>]
     [-RequestProperties <ClientRequestProperties>]
     [<CommonParameters>]
 ```
@@ -74,7 +74,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -91,7 +91,7 @@ Aliases:
 Accepted values: PSObject, Json, Csv, DataTable, Html
 
 Required: False
-Position: 1
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

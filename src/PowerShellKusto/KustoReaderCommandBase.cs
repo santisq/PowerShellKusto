@@ -23,7 +23,7 @@ public abstract class KustoReaderCommandBase : KustoCommandBase, IDynamicParamet
         get => _noHeaderParam is { NoHeader.IsPresent: not true };
     }
 
-    [Parameter(Position = 1)]
+    [Parameter]
     public OutputType OutputType { get; set; } = OutputType.PSObject;
 
     [Parameter]

@@ -28,7 +28,8 @@ New-KustoClientRequestProperties
 ## DESCRIPTION
 
 The `New-KustoClientRequestProperties` cmdlet can be used to create a new `ClientRequestProperties` object
-to manage the interaction between client and service. This object can be later on passed as argument to the request cmdlets: [`Invoke-KustoControlCommand`](Invoke-KustoControlCommand.md) and [`Invoke-KustoQuery`](Invoke-KustoQuery.md).
+to manage the interaction between client and service. This object can be later on passed as argument to the request cmdlets: [`Invoke-KustoControlCommand`](Invoke-KustoControlCommand.md), [`Invoke-KustoQuery`](Invoke-KustoQuery.md),
+[`Set-KustoBatchingPolicy`](Set-KustoBatchingPolicy.md) and [`Set-KustoIngestionMapping`](Set-KustoIngestionMapping.md).
 
 The object contains the following information:
 
@@ -58,6 +59,7 @@ $requestProps = New-KustoClientRequestProperties -Options @{
     request_app_name = 'myApp'
     norequesttimeout = $true
 }
+Invoke-KustoQuery 'SELECT top(10) * FROM MyTable' -RequestProperties $requestProps
 ```
 
 > [!TIP]

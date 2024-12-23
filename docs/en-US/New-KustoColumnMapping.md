@@ -23,23 +23,44 @@ New-KustoColumnMapping
 
 ## DESCRIPTION
 
-{{ Fill in the Description }}
+The `New-KustoColumnMapping` cmdlet is used to create a new object of type `ColumnMapping`, this object can be later on passed as argument to the [`New-KustoIngestionMapping`](New-KustoIngestionMapping.md) cmdlet. See [__Ingestion mappings__](https://learn.microsoft.com/en-us/kusto/management/mappings?view=microsoft-fabric) for more details.
 
 ## EXAMPLES
 
-### Example 1
+### Example 1: CSV mapping
 
 ```powershell
-PS C:\> {{ Add example code here }}
+$columns = @(
+    New-KustoColumnMapping event_time -Properties @{ Ordinal = 0 }
+    New-KustoColumnMapping event_name -Properties @{ Ordinal = 1 }
+    New-KustoColumnMapping event_type -Properties @{ Ordinal = 2 }
+    New-KustoColumnMapping ingestion_time -Properties @{ ConstValue = '2023-01-01T10:32:00' }
+    New-KustoColumnMapping source_location -Properties @{ Transform = 'SourceLocation' })
 ```
 
-{{ Add example description here }}
+Demonstrates how to create columns for a new [__CSV mapping__](https://learn.microsoft.com/en-us/kusto/management/csv-mapping?view=microsoft-fabric).
+
+### Example 2: JSON Mapping
+
+```powershell
+$columns = @(
+    New-KustoColumnMapping event_timestamp -Properties @{Path = '$.Timestamp' }
+    New-KustoColumnMapping event_name -Properties @{ Path = '$.Event.Name' }
+    New-KustoColumnMapping event_type -Properties @{ Path = '$.Event.Type' }
+    New-KustoColumnMapping source_uri -Properties @{ Transform = 'SourceLocation' }
+    New-KustoColumnMapping source_line -Properties @{ Transform = 'SourceLineNumber' }
+    New-KustoColumnMapping event_time -Properties @{ Path = '$.Timestamp'; Transform = 'DateTimeFromUnixMilliseconds' }
+    New-KustoColumnMapping ingestion_time -Properties @{ ConstValue = '2021-01-01T10:32:00' }
+    New-KustoColumnMapping full_record -Properties @{ Path = '$' })
+```
+
+Demonstrates how to create columns for a new [__JSON mapping__](https://learn.microsoft.com/en-us/kusto/management/json-mapping?view=microsoft-fabric).
 
 ## PARAMETERS
 
 ### -Name
 
-{{ Fill Name Description }}
+Specifies the Target column name in the table.
 
 ```yaml
 Type: String
@@ -55,7 +76,7 @@ Accept wildcard characters: False
 
 ### -Properties
 
-{{ Fill Properties Description }}
+Property-bag containing properties specific for each mapping as described in each specific mapping type page. 
 
 ```yaml
 Type: Hashtable
@@ -71,7 +92,7 @@ Accept wildcard characters: False
 
 ### -Type
 
-{{ Fill Type Description }}
+Specifies the Datatype with which to create the mapped column if it doesn't already exist in the table.
 
 ```yaml
 Type: ColumnType
@@ -81,22 +102,6 @@ Accepted values: bool, datetime, decimal, dynamic, guid, int, long, double, stri
 
 Required: False
 Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -118,3 +123,5 @@ For more information, see [about_CommonParameters](http://go.microsoft.com/fwlin
 ## NOTES
 
 ## RELATED LINKS
+
+[__Ingestion mappings__](https://learn.microsoft.com/en-us/kusto/management/mappings?view=microsoft-fabric)

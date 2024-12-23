@@ -9,16 +9,16 @@ namespace PowerShellKusto.Commands;
 [OutputType(typeof(IngestionMapping))]
 public sealed class NewKustoIngestionMappingCommand : PSCmdlet
 {
-    [Parameter]
+    [Parameter(Position = 0)]
+    [ValidateNotNullOrEmpty]
+    public ColumnMapping[]? Columns { get; set; }
+
+    [Parameter(Position = 1)]
     public IngestionMappingKind Kind { get; set; } = IngestionMappingKind.Unknown;
 
     [Parameter]
     [ValidateNotNullOrEmpty]
     public string? Reference { get; set; }
-
-    [Parameter]
-    [ValidateNotNullOrEmpty]
-    public ColumnMapping[]? Columns { get; set; }
 
     protected override void EndProcessing()
     {
