@@ -9,7 +9,7 @@ schema: 2.0.0
 
 ## SYNOPSIS
 
-Creates a `IngestionMapping` object.
+Creates a new `IngestionMapping` object.
 
 ## SYNTAX
 
@@ -23,7 +23,7 @@ New-KustoIngestionMapping
 
 ## DESCRIPTION
 
-The `New-KustoIngestionMapping` is used to create a new object of type `IngestionMapping` that can be later on passed as argument to the [`Invoke-KustoIngestFromStorage`](Invoke-KustoIngestFromStorage.md), [`Invoke-KustoIngestFromStream`](Invoke-KustoIngestFromStream.md) and [`Set-KustoIngestionMapping`](Set-KustoIngestionMapping.md) commands.
+The `New-KustoIngestionMapping` cmdlet is used to create a new object of type `IngestionMapping` that can be later on passed as argument to the [`Invoke-KustoIngestFromStorage`](Invoke-KustoIngestFromStorage.md), [`Invoke-KustoIngestFromStream`](Invoke-KustoIngestFromStream.md) and [`Set-KustoIngestionMapping`](Set-KustoIngestionMapping.md) commands.
 
 ## EXAMPLES
 

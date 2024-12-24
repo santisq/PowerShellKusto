@@ -9,7 +9,7 @@ schema: 2.0.0
 
 ## SYNOPSIS
 
-Creates a `ColumnMapping` object.
+Creates a new `ColumnMapping` object.
 
 ## SYNTAX
 
@@ -23,7 +23,9 @@ New-KustoColumnMapping
 
 ## DESCRIPTION
 
-The `New-KustoColumnMapping` cmdlet is used to create a new object of type `ColumnMapping`, this object can be later on passed as argument to the [`New-KustoIngestionMapping`](New-KustoIngestionMapping.md) cmdlet. See [__Ingestion mappings__](https://learn.microsoft.com/en-us/kusto/management/mappings?view=microsoft-fabric) for more details.
+The `New-KustoColumnMapping` cmdlet is used to create a new object of type `ColumnMapping`, this object can be later on passed as argument to the [`New-KustoIngestionMapping`](New-KustoIngestionMapping.md) cmdlet.
+
+See [__Ingestion mappings__](https://learn.microsoft.com/en-us/kusto/management/mappings?view=microsoft-fabric) for more details.
 
 ## EXAMPLES
 

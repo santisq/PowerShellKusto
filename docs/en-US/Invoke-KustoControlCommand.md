@@ -31,8 +31,7 @@ The `Invoke-KustoControlCommand` cmdlet allows you to invoke management commands
 ### Example 1: Invoke a control command
 
 ```powershell
-Invoke-KustoControlCommand '
-.create table MyLogs(
+Invoke-KustoControlCommand '.create table MyLogs(
     Level:string,
     Timestamp:datetime,
     UserId:string,
@@ -41,30 +40,29 @@ Invoke-KustoControlCommand '
     ProcessId:int32)'
 ```
 
-This example shows how to create a new Table on a database specified by [`Connect-Kusto`](Connect-Kusto.md).
+This example shows how to create a new Table on a database specified by [`Connect-Kusto`](Connect-Kusto.md#-database).
 
 ### Example 2: Invoke a control command over a specified Database
 
 ```powershell
-Invoke-KustoControlCommand -Database myDb '
-.show tables details
-| where TotalRowCount > 0
-| extend TotalExtentSize = format_bytes(TotalExtentSize)
-| extend TotalOriginalSize = format_bytes(TotalOriginalSize)
-| extend HotExtentSize = format_bytes(HotExtentSize)
-| extend HotOriginalSize = format_bytes(HotOriginalSize)
-| project-away
-    Folder,
-    DocString,
-    AuthorizedPrincipals,
-    RetentionPolicy,
-    CachingPolicy,
-    ShardingPolicy,
-    MergePolicy,
-    StreamingIngestionPolicy,
-    IngestionBatchingPolicy,
-    RowOrderPolicy,
-    TableId'
+Invoke-KustoControlCommand -Database myDb '.show tables details
+    | where TotalRowCount > 0
+    | extend TotalExtentSize = format_bytes(TotalExtentSize)
+    | extend TotalOriginalSize = format_bytes(TotalOriginalSize)
+    | extend HotExtentSize = format_bytes(HotExtentSize)
+    | extend HotOriginalSize = format_bytes(HotOriginalSize)
+    | project-away
+        Folder,
+        DocString,
+        AuthorizedPrincipals,
+        RetentionPolicy,
+        CachingPolicy,
+        ShardingPolicy,
+        MergePolicy,
+        StreamingIngestionPolicy,
+        IngestionBatchingPolicy,
+        RowOrderPolicy,
+        TableId'
 ```
 
 This example demonstrates how to get information on all tables in the `myDb` Database.
@@ -93,7 +91,7 @@ This non mandatory parameter determines which Database in your Cluster will be t
 
 > [!NOTE]
 >
-> If not supplied, the Database used will be the one specified when you called [`Connect-Kusto`](Connect-Kusto.md).
+> If not supplied, the Database used will be the one specified when you called [`Connect-Kusto`](Connect-Kusto.md#-database).
 
 ```yaml
 Type: String
@@ -161,7 +159,7 @@ For more information, see [about_CommonParameters](http://go.microsoft.com/fwlin
 
 ### System.Data.DataTable
 
-The output type from this cmdlet is determined by the `-OutputType` parameter.
+The output type from this cmdlet is determined by the [`-OutputType` parameter](#-outputtype).
 By default, this cmdlet outputs `PSObject`.
 
 ## NOTES

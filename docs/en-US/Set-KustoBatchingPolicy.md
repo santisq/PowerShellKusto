@@ -9,7 +9,7 @@ schema: 2.0.0
 
 ## SYNOPSIS
 
-Sets ingestion batching policy on a Kusto Database or Table.
+Sets the ingestion batching policy on a Kusto Database or Table.
 
 ## SYNTAX
 
@@ -27,7 +27,9 @@ Set-KustoBatchingPolicy
 
 ## DESCRIPTION
 
-The `Set-KustoBatchingPolicy` cmdlet is used to alter the batching policy of a Database or specific Table on an Azure Data Explorer Cluster. See [__Ingestion batching policy__](https://learn.microsoft.com/en-us/kusto/management/batching-policy?view=microsoft-fabric) for more details.
+The `Set-KustoBatchingPolicy` cmdlet is used to alter the batching policy of a Database or specific Table on an Azure Data Explorer Cluster.
+
+See [__Ingestion batching policy__](https://learn.microsoft.com/en-us/kusto/management/batching-policy?view=microsoft-fabric) for more details.
 
 ## EXAMPLES
 
@@ -52,12 +54,13 @@ $params = @{
     MaximumNumberOfItems    = 500
     MaximumRawDataSizeMB    = 1024
 }
-Set-KustoBatchingPolicy -Database myDb @params
+Set-KustoBatchingPolicy @params
 ```
 
 > [!TIP]
 >
-> When `-Table` isn't specified, the ingestion batching policy is altered at Database level.
+> - When `-Table` isn't specified, the ingestion batching policy is altered at Database level.
+> - In this example, the database is specified by the database used when you called [`Connect-Kusto`](Connect-Kusto.md#-database).
 
 ## PARAMETERS
 
@@ -67,7 +70,7 @@ Specifies the name of the Database for which to alter the ingestion batching pol
 
 > [!NOTE]
 >
-> If not supplied, the Database used will be the one specified when you called [`Connect-Kusto`](Connect-Kusto.md).
+> If not supplied, the Database used will be the one specified when you called [`Connect-Kusto`](Connect-Kusto.md#-database).
 
 ```yaml
 Type: String

@@ -9,7 +9,7 @@ schema: 2.0.0
 
 ## SYNOPSIS
 
-Creates a `ClientRequestProperties` object.
+Creates a new `ClientRequestProperties` object.
 
 ## SYNTAX
 
@@ -64,8 +64,8 @@ Invoke-KustoQuery 'SELECT top(10) * FROM MyTable' -RequestProperties $requestPro
 
 > [!TIP]
 >
-> Out of the supported request properties, this cmdlet only offers `-NoTruncation` (`notruncation`) and `-ServerTimeout` (`servertimeout`).
-> The `-Options` parameters is used to add extra options to your request that aren't by default available as a Parameter.  
+> Out of the supported request properties, this cmdlet offers `-NoTruncation` (`notruncation`) and `-ServerTimeout` (`servertimeout`) as a Parameter.
+> The `-Options` Parameter is used to add extra options to your request that aren't by default available.  
 > See [__Supported request properties__](https://learn.microsoft.com/en-us/kusto/api/rest/request-properties?view=microsoft-fabric#supported-request-properties) for the additional options.
 
 ## PARAMETERS

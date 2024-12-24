@@ -29,7 +29,7 @@ Invoke-KustoIngestFromStream
 
 ## DESCRIPTION
 
-Similar to [`Invoke-KustoIngestFromStorage`](Invoke-KustoIngestFromStorage.md), the `Invoke-KustoIngestFromStream` cmdlet allows you to ingest data into a table on your Azure Data Explorer Cluster, the only difference is the source being a [__Stream__](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream) instead of a path or URI.
+Similar to [`Invoke-KustoIngestFromStorage`](Invoke-KustoIngestFromStorage.md), the `Invoke-KustoIngestFromStream` cmdlet allows you to ingest data into a table on your Azure Data Explorer Cluster, the only difference is the source being a [__Stream__](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream) instead of a Path or URI.
 
 ## EXAMPLES
 
@@ -49,7 +49,7 @@ Invoke-KustoIngestFromStream $fs -Table myTable -Database myDb -Format multijson
 
 > [!NOTE]
 >
-> This example specifies a format of `multijson` instead `json` because a _JSON Array_ is classified as multijson, while _JSON Lines_ adhere to the `json` format.
+> This example specifies a format of `multijson` instead `json` because a _JSON Array_ is classified as `multijson`, while _JSON Lines_ adhere to the `json` format.
 > See [__The JSON format__](https://learn.microsoft.com/en-us/azure/data-explorer/ingest-json-formats?tabs=kusto-query-language#the-json-format) for more details.
 
 ## PARAMETERS
@@ -60,7 +60,7 @@ This non mandatory parameter determines which Database in your Cluster will be t
 
 > [!NOTE]
 >
-> If not supplied, the Database used will be the one specified when you called [`Connect-Kusto`](Connect-Kusto.md).
+> If not supplied, the Database used will be the one specified when you called [`Connect-Kusto`](Connect-Kusto.md#-database).
 
 ```yaml
 Type: String
@@ -94,7 +94,7 @@ Accept wildcard characters: False
 ### -IgnoreFirstRecord
 
 This switch indicates that ingestion should ignore the first record of a file.
-This property is useful for files in `CSV` and similar formats,
+This property is useful for files in CSV and similar formats,
 if the first record in the file are the column names.
 
 ```yaml

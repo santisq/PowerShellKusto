@@ -31,6 +31,7 @@ Invoke-KustoIngestFromStorage
 The `Invoke-KustoIngestFromStorage` cmdlet can be used to ingest local or blob storage files into a table
 on your Azure Data Explorer Cluster.
 For ingestion from a [__Stream__](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream) see [`Invoke-KustoIngestFromStream`](Invoke-KustoIngestFromStream.md).
+
 For more details on Kusto ingestion, checkout
 [__Ingest from storage__](https://learn.microsoft.com/en-us/kusto/management/data-ingestion/ingest-from-storage?view=microsoft-fabric).
 
@@ -65,7 +66,7 @@ Invoke-KustoIngestFromStorage .\myJson.json -Table MyJsonTable -Database myDb -F
 
 > [!NOTE]
 >
-> This example specifies a format of `multijson` instead `json` because a _JSON Array_ is classified as multijson, while _JSON Lines_ adhere to the `json` format.
+> This example specifies a format of `multijson` instead `json` because a _JSON Array_ is classified as `multijson`, while _JSON Lines_ adhere to the `json` format.
 > See [__The JSON format__](https://learn.microsoft.com/en-us/azure/data-explorer/ingest-json-formats?tabs=kusto-query-language#the-json-format) for more details.
 
 ## PARAMETERS
@@ -76,7 +77,7 @@ This non mandatory parameter determines which Database in your Cluster will be t
 
 > [!NOTE]
 >
-> If not supplied, the Database used will be the one specified when you called [`Connect-Kusto`](Connect-Kusto.md).
+> If not supplied, the Database used will be the one specified when you called [`Connect-Kusto`](Connect-Kusto.md#-database).
 
 ```yaml
 Type: String
@@ -92,7 +93,7 @@ Accept wildcard characters: False
 
 ### -Format
 
-This parameter determines the format of the file to be ingested. The default value is __`csv`__.
+This parameter determines the format of the file to be ingested. __The default value is `csv`__.
 
 ```yaml
 Type: DataSourceFormat
@@ -110,7 +111,7 @@ Accept wildcard characters: False
 ### -IgnoreFirstRecord
 
 This switch indicates that ingestion should ignore the first record of a file.
-This property is useful for files in `CSV` and similar formats,
+This property is useful for files in CSV and similar formats,
 if the first record in the file are the column names.
 
 ```yaml

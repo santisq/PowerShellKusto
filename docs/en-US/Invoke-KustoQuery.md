@@ -26,7 +26,7 @@ Invoke-KustoQuery
 
 The `Invoke-KustoQuery` cmdlet allows you to run
 [Kusto Query Language (KQL)](https://learn.microsoft.com/en-us/kusto/query/?view=microsoft-fabric) queries or
-[T-SQL](https://learn.microsoft.com/en-us/kusto/query/t-sql?view=microsoft-fabric) queries on the tables on a
+[T-SQL](https://learn.microsoft.com/en-us/kusto/query/t-sql?view=microsoft-fabric) queries on a
 specified Database of your Azure Data Explorer Cluster.
 
 ## EXAMPLES
@@ -38,6 +38,10 @@ Invoke-KustoQuery 'search * | summarize count() by $table'
 ```
 
 This examples shows how to get the log count summarized by each table.
+
+> [!TIP]
+>
+> In this example, the database is specified by the database used when you called [`Connect-Kusto`](Connect-Kusto.md#-database).
 
 ### Example 2: Run a KQL Query on specified Database
 
@@ -62,11 +66,11 @@ See also [`New-KustoClientRequestProperties`](New-KustoClientRequestProperties.m
 
 ### -Database
 
-This non mandatory parameter determines which Database in your Cluster will be targetted by your ingest command.
+This non mandatory parameter determines which Database in your Cluster will be targetted by your query command.
 
 > [!NOTE]
 >
-> If not supplied, the Database used will be the one specified when you called [`Connect-Kusto`](Connect-Kusto.md).
+> If not supplied, the Database used will be the one specified when you called [`Connect-Kusto`](Connect-Kusto.md#-database).
 
 ```yaml
 Type: String
@@ -150,7 +154,7 @@ For more information, see [about_CommonParameters](http://go.microsoft.com/fwlin
 
 ### System.Data.DataTable
 
-The output type from this cmdlet is determined by the `-OutputType` parameter.
+The output type from this cmdlet is determined by the [`-OutputType` parameter](#-outputtype).
 By default, this cmdlet outputs `PSObject`.
 
 ## NOTES

@@ -84,7 +84,9 @@ Connect-Kusto
 
 ## DESCRIPTION
 
-The `Connect-Kusto` cmdlet is the main entry point for the cmdlets in this module and it's used to establish a connection with your Azure Data Explorer. The authentication methods offered by this cmdlet are:
+The `Connect-Kusto` cmdlet is the main entry point for the cmdlets in this module and it's used to establish a connection with your Azure Data Explorer Cluster.
+
+The available authentication methods are:
 
 - User prompt
 - System or User Managed Identity

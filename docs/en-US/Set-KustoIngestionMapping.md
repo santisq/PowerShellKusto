@@ -45,14 +45,15 @@ This example demonstrates how to create a new `Json` mapping with name `myNewMap
 
 ```powershell
 $mapping = New-KustoIngestionMapping -Columns $columns
-Set-KustoIngestionMapping myNewMapping -Database myDb -Mapping $mapping
+Set-KustoIngestionMapping myNewMapping -Mapping $mapping
 ```
 
-This example demonstrates how to create a new `Csv` mapping with name `myNewMapping` on `myDb`.
+This example demonstrates how to create a new `Csv` mapping with name `myNewMapping`.
 
 > [!TIP]
 >
-> When `-Table` isn't specified, the mapping is created at Database level.
+> - When `-Table` isn't specified, the mapping is created at Database level.
+> - In this example, the database is specified by the database used when you called [`Connect-Kusto`](Connect-Kusto.md#-database).
 
 ### Example 3: Update an ingestion mapping on a Database
 
@@ -60,6 +61,8 @@ This example demonstrates how to create a new `Csv` mapping with name `myNewMapp
 $mapping = New-KustoIngestionMapping -Columns $columns
 Set-KustoIngestionMapping myNewMapping -Database myDb -Mapping $mapping -Force
 ```
+
+This example updates an existing mapping on a specified database.
 
 ## PARAMETERS
 
@@ -69,7 +72,7 @@ Specifies the Kusto Database where the new ingestion mapping is being created.
 
 > [!NOTE]
 >
-> If not supplied, the Database used will be the one specified when you called [`Connect-Kusto`](Connect-Kusto.md).
+> If not supplied, the Database used will be the one specified when you called [`Connect-Kusto`](Connect-Kusto.md#-database).
 
 ```yaml
 Type: String
@@ -77,7 +80,23 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 1
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Force
+
+If a mapping with same name in the given scope already exists, `.create` fails. Use this switch to execute a `.create-or-alter` control command instead.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -114,7 +133,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 2
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -129,22 +148,6 @@ Type: OutputType
 Parameter Sets: (All)
 Aliases:
 Accepted values: PSObject, Json, Csv, DataTable, Html
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Force
-
-If a mapping with same name in the given scope already exists, `.create` fails. Use this switch to execute a `.create-or-alter` control command instead.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
 
 Required: False
 Position: Named
@@ -187,7 +190,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 0
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
