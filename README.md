@@ -14,11 +14,15 @@ PowerShell Module for Azure Data Explorer management, query and ingestion
 
 </div>
 
-PowerShellKusto is an abstraction over [`Microsoft.Azure.Kusto.Data`][kustodata] and [`Microsoft.Azure.Kusto.Ingest`][kustoingest], to simplify the process of Azure Data Explorer management, query and ingestion. The cmdlet currently has the following cmdlets and more will be added in the future. If you'd like to see a cmdlet for a specific task, please sumbit a [new Issue][newissue]!
+PowerShellKusto is an abstraction over [`Microsoft.Azure.Kusto.Data`][kustodata] and [`Microsoft.Azure.Kusto.Ingest`][kustoingest], to simplify the process of Azure Data Explorer management, query and ingestion.
 
 ## Commands
 
-### `Connect-Kusto`
+The Module currently has the following cmdlets and more will be added in the future.
+
+If you'd like to see a cmdlet for a specific task, please sumbit an [Issue][newissue]!
+
+### [`Connect-Kusto`](./docs/en-US/Connect-Kusto.md)
 
 Main entry point for the cmdlets in this module and it's used to establish a connection with your Azure Data Explorer Cluster.
 
@@ -30,51 +34,47 @@ The available authentication methods are:
 - Secret
 - User and Application Access Token
 
-### `Invoke-KustoControlCommand`
+### [`Invoke-KustoControlCommand`](./docs/en-US/Invoke-KustoControlCommand.md)
 
 Allows you to invoke management commands also known as control commands over an Azure Data Explorer Cluster. For detailed information on this topic check out [__Management commands overview__](https://learn.microsoft.com/en-us/kusto/management/?view=microsoft-fabric).
 
-### `Invoke-KustoIngestFromStorage`
+### [`Invoke-KustoIngestFromStorage`](./docs/en-US/Invoke-KustoIngestFromStorage.md)
 
 Can be used to ingest local or blob storage files into a table on your Azure Data Explorer Cluster.
 
-### `Invoke-KustoIngestFromStream`
+### [`Invoke-KustoIngestFromStream`](./docs/en-US/Invoke-KustoIngestFromStream.md)
 
 Similar to [`Invoke-KustoIngestFromStorage`](./docs/en-US/Invoke-KustoIngestFromStorage.md), but the source is
 [__Stream__](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream) instead of a Path or URI.
 
-### `Invoke-KustoQuery`
+### [`Invoke-KustoQuery`](./docs/en-US/Invoke-KustoQuery.md)
 
 Allows you to run
 [Kusto Query Language (KQL)](https://learn.microsoft.com/en-us/kusto/query/?view=microsoft-fabric) queries or
 [T-SQL](https://learn.microsoft.com/en-us/kusto/query/t-sql?view=microsoft-fabric) queries on a
 specified Database of your Azure Data Explorer Cluster.
 
-### `New-KustoClientRequestProperties`
+### [`New-KustoClientRequestProperties`](./docs/en-US/New-KustoClientRequestProperties.md)
 
 Creates a new `ClientRequestProperties` object
 to manage the interaction between client and service. This object can be later on passed as argument to the request cmdlets: [`Invoke-KustoControlCommand`](./docs/en-US/Invoke-KustoControlCommand.md), [`Invoke-KustoQuery`](./docs/en-US/Invoke-KustoQuery.md),
 [`Set-KustoBatchingPolicy`](./docs/en-US/Set-KustoBatchingPolicy.md) and [`Set-KustoIngestionMapping`](./docs/en-US/Set-KustoIngestionMapping.md).
 
-### `New-KustoColumnMapping`
+### [`New-KustoColumnMapping`](./docs/en-US/New-KustoColumnMapping.md)
 
 Creates a new object of type `ColumnMapping`, this object can be later on passed as argument to the [`New-KustoIngestionMapping`](./docs/en-US/New-KustoIngestionMapping.md) cmdlet.
 
-### `New-KustoIngestionMapping`
+### [`New-KustoIngestionMapping`](./docs/en-US/New-KustoIngestionMapping.md)
 
 Creates a new object of type `IngestionMapping` that can be later on passed as argument to the [`Invoke-KustoIngestFromStorage`](./docs/en-US/Invoke-KustoIngestFromStorage.md), [`Invoke-KustoIngestFromStream`](./docs/en-US/Invoke-KustoIngestFromStream.md) and [`Set-KustoIngestionMapping`](./docs/en-US/Set-KustoIngestionMapping.md) commands.
 
-### `Set-KustoBatchingPolicy`
+### [`Set-KustoBatchingPolicy`](./docs/en-US/Set-KustoBatchingPolicy.md)
 
 Alters the [__Ingestion batching policy__](https://learn.microsoft.com/en-us/kusto/management/batching-policy?view=microsoft-fabric) of a Database or specific Table on an Azure Data Explorer Cluster.
 
-### `Set-KustoIngestionMapping`
+### [`Set-KustoIngestionMapping`](./docs/en-US/Set-KustoIngestionMapping.md)
 
 [Creates](https://learn.microsoft.com/en-us/kusto/management/create-ingestion-mapping-command?view=microsoft-fabric) or [updates](https://learn.microsoft.com/en-us/kusto/management/create-or-alter-ingestion-mapping-command?view=microsoft-fabric) an ingestion mapping that can be associated with a specific format and a specific table or database.
-
-## Documentation
-
-Check out [__the docs__](./docs/en-US/) for information about how to use this Module.
 
 ## Installation
 
