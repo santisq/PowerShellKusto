@@ -14,7 +14,7 @@ public sealed class NewKustoIngestionMappingCommand : PSCmdlet
     public ColumnMapping[]? Columns { get; set; }
 
     [Parameter(Position = 1)]
-    public IngestionMappingKind Kind { get; set; } = IngestionMappingKind.Unknown;
+    public IngestionMappingKind Kind { get; set; } = IngestionMappingKind.Csv;
 
     [Parameter]
     [ValidateNotNullOrEmpty]

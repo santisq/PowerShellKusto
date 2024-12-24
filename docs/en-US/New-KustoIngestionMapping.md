@@ -58,7 +58,7 @@ Accept wildcard characters: False
 
 ### -Kind
 
-Specifies the type of mapping. __Default value is `Unknown`__.
+Specifies the type of mapping. __Default value is `Csv`__.
 
 ```yaml
 Type: IngestionMappingKind

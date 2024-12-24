@@ -12,30 +12,27 @@ namespace PowerShellKusto.Commands;
 public sealed class SetKustoIngestionMappingCommand : KustoReaderCommandBase
 {
     [Parameter(Mandatory = true, Position = 0)]
-    public string Table { get; set; } = null!;
+    public string Name { get; set; } = null!;
 
-    [Parameter(Mandatory = true, Position = 2)]
-    public string MappingName { get; set; } = null!;
+    [Parameter(Position = 2)]
+    public string? Table { get; set; }
 
     [Parameter(Mandatory = true)]
-    public IngestionMapping IngestionMapping { get; set; } = null!;
+    public IngestionMapping Mapping { get; set; } = null!;
 
     [Parameter]
-    public SwitchParameter RemoveOldestIfRequired { get; set; }
+    public SwitchParameter Force { get; set; }
 
     protected override void EndProcessing()
     {
         try
         {
             Database ??= Builder?.InitialCatalog;
-            using ICslAdminProvider client = KustoClientFactory.CreateCslAdminProvider(Builder);
-            string command = CslCommandGenerator.GenerateTableMappingCreateCommand(
-                mappingKind: IngestionMapping.IngestionMappingKind,
-                entityName: Table,
-                mappingName: MappingName,
-                mapping: IngestionMapping.IngestionMappings,
-                removeOldestIfRequired: RemoveOldestIfRequired);
+            string command = Table is null
+                ? GetDatabaseCommand()
+                : GetTableCommand();
 
+            using ICslAdminProvider client = KustoClientFactory.CreateCslAdminProvider(Builder);
             using IDataReader reader = RequestProperties is null
                 ? client.ExecuteControlCommand(Database, command)
                 : client.ExecuteControlCommand(Database, command, RequestProperties);
@@ -48,4 +45,28 @@ public sealed class SetKustoIngestionMappingCommand : KustoReaderCommandBase
             WriteError(error);
         }
     }
+
+    private string GetTableCommand() => Force
+        ? CslCommandGenerator.GenerateTableMappingCreateOrAlterCommand(
+            mappingKind: Mapping.IngestionMappingKind,
+            tableName: Table,
+            mappingName: Name,
+            mapping: Mapping.IngestionMappings)
+        : CslCommandGenerator.GenerateTableMappingCreateCommand(
+            mappingKind: Mapping.IngestionMappingKind,
+            entityName: Table,
+            mappingName: Name,
+            mapping: Mapping.IngestionMappings);
+
+    private string GetDatabaseCommand() => Force
+        ? CslCommandGenerator.GenerateDatabaseMappingCreateOrAlterCommand(
+            mappingKind: Mapping.IngestionMappingKind,
+            entityName: Database,
+            mappingName: Name,
+            mapping: Mapping.IngestionMappings)
+        : CslCommandGenerator.GenerateDatabaseMappingCreateCommand(
+            mappingKind: Mapping.IngestionMappingKind,
+            entityName: Database,
+            mappingName: Name,
+            mapping: Mapping.IngestionMappings);
 }
