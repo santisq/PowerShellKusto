@@ -16,7 +16,11 @@ PowerShell Module for Azure Data Explorer management, query and ingestion
 
 PowerShellKusto is an abstraction over [`Microsoft.Azure.Kusto.Data`][kustodata] and [`Microsoft.Azure.Kusto.Ingest`][kustoingest], to simplify the process of Azure Data Explorer management, query and ingestion. The cmdlet currently has the following cmdlets and more will be added in the future. If you'd like to see a cmdlet for a specific task, please sumbit a [new Issue][newissue]!
 
-- `Connect-Kusto`: This cmdlet is the main entry point for the cmdlets in this module and it's used to establish a connection with your Azure Data Explorer Cluster.
+#### `Connect-Kusto`
+
+This cmdlet is the main entry point for the cmdlets in this module and it's used to establish a connection with your Azure Data Explorer Cluster.
+
+
 - `Invoke-KustoControlCommand`: 
 - `Invoke-KustoIngestFromStorage`: 
 - `Invoke-KustoIngestFromStream`: 
@@ -29,7 +33,7 @@ PowerShellKusto is an abstraction over [`Microsoft.Azure.Kusto.Data`][kustodata]
 
 ## Documentation
 
-Check out [__the docs__](./docs/en-US/Use-Object.md) for information about how to use this Module.
+Check out [__the docs__](./docs/en-US/) for information about how to use this Module.
 
 ## Installation
 
