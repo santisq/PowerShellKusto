@@ -14,7 +14,34 @@ PowerShell Module for Azure Data Explorer management, query and ingestion
 
 </div>
 
-This module is currently under development, if you wish to test it:
+PowerShellKusto is an abstraction over [`Microsoft.Azure.Kusto.Data`][kustodata] and [`Microsoft.Azure.Kusto.Ingest`][kustoingest], to simplify the process of Azure Data Explorer management, query and ingestion. The cmdlet currently has the following cmdlets and more will be added in the future. If you'd like to see a cmdlet for a specific task, please sumbit a [new Issue][newissue]!
+
+- `Connect-Kusto`: This cmdlet is the main entry point for the cmdlets in this module and it's used to establish a connection with your Azure Data Explorer Cluster.
+- `Invoke-KustoControlCommand`: 
+- `Invoke-KustoIngestFromStorage`: 
+- `Invoke-KustoIngestFromStream`: 
+- `Invoke-KustoQuery`: 
+- `New-KustoClientRequestProperties`: 
+- `New-KustoColumnMapping`: 
+- `New-KustoIngestionMapping`: 
+- `Set-KustoBatchingPolicy`: 
+- `Set-KustoIngestionMapping`: 
+
+## Documentation
+
+Check out [__the docs__](./docs/en-US/Use-Object.md) for information about how to use this Module.
+
+## Installation
+
+### Gallery
+
+The module is available through the [PowerShell Gallery][gallery_ref]:
+
+```powershell
+Install-Module PowerShellKusto -Scope CurrentUser
+```
+
+### Source
 
 ```powershell
 git clone 'https://github.com/santisq/PowerShellKusto.git'
@@ -37,3 +64,6 @@ Contributions are welcome, if you wish to contribute, fork this repository and s
 [license_badge]: https://img.shields.io/github/license/santisq/PowerShellKusto
 [license_ref]: https://github.com/santisq/PowerShellKusto/blob/main/LICENSE
 [psgithub]: https://github.com/PowerShell/PowerShell
+[kustodata]: https://www.nuget.org/packages/Microsoft.Azure.Kusto.Data/
+[kustoingest]: https://www.nuget.org/packages/Microsoft.Azure.Kusto.Ingest/
+[newissue]: https://github.com/santisq/PowerShellKusto/issues/new/choose
