@@ -3,7 +3,7 @@
 <div align="center">
 <sub>
 
-PowerShell Module for Azure Data Explorer management, query and ingestion
+Azure Data Explorer management, query and ingestion
 
 </sub>
 <br/>
