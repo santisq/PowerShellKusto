@@ -36,7 +36,7 @@ The available authentication methods are:
 
 ### [`Invoke-KustoControlCommand`](./docs/en-US/Invoke-KustoControlCommand.md)
 
-Allows you to invoke management commands also known as control commands over an Azure Data Explorer Cluster. For detailed information on this topic check out [__Management commands overview__](https://learn.microsoft.com/en-us/kusto/management/?view=microsoft-fabric).
+Allows you to invoke [__management commands__](https://learn.microsoft.com/en-us/kusto/management/?view=microsoft-fabric) also known as control commands over an Azure Data Explorer Cluster.
 
 ### [`Invoke-KustoIngestFromStorage`](./docs/en-US/Invoke-KustoIngestFromStorage.md)
 
