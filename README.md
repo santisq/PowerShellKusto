@@ -14,7 +14,7 @@ PowerShell Module for Azure Data Explorer management, query and ingestion
 
 </div>
 
-PowerShellKusto is an abstraction over [`Microsoft.Azure.Kusto.Data`][kustodata] and [`Microsoft.Azure.Kusto.Ingest`][kustoingest], to simplify the process of Azure Data Explorer management, query and ingestion.
+PowerShellKusto is an abstraction over [`Microsoft.Azure.Kusto.Data`][kustodata] and [`Microsoft.Azure.Kusto.Ingest`][kustoingest], to simplify Azure Data Explorer management, query and ingestion.
 
 ## Commands
 
