@@ -22,6 +22,8 @@ The Module currently has the following cmdlets and more will be added in the fut
 
 If you'd like to see a cmdlet for a specific task, please sumbit an [Issue][newissue]!
 
+---
+
 ### [`Connect-Kusto`](./docs/en-US/Connect-Kusto.md)
 
 Main entry point for the cmdlets in this module and it's used to establish a connection with your Azure Data Explorer Cluster.
@@ -34,18 +36,26 @@ The available authentication methods are:
 - Secret
 - User and Application Access Token
 
+---
+
 ### [`Invoke-KustoControlCommand`](./docs/en-US/Invoke-KustoControlCommand.md)
 
 Allows you to invoke [__management commands__](https://learn.microsoft.com/en-us/kusto/management/?view=microsoft-fabric) also known as control commands over an Azure Data Explorer Cluster.
+
+---
 
 ### [`Invoke-KustoIngestFromStorage`](./docs/en-US/Invoke-KustoIngestFromStorage.md)
 
 Can be used to ingest local or blob storage files into a table on your Azure Data Explorer Cluster.
 
+---
+
 ### [`Invoke-KustoIngestFromStream`](./docs/en-US/Invoke-KustoIngestFromStream.md)
 
 Similar to [`Invoke-KustoIngestFromStorage`](./docs/en-US/Invoke-KustoIngestFromStorage.md), but the source is
 [__Stream__](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream) instead of a Path or URI.
+
+---
 
 ### [`Invoke-KustoQuery`](./docs/en-US/Invoke-KustoQuery.md)
 
@@ -54,23 +64,33 @@ Allows you to run
 [T-SQL](https://learn.microsoft.com/en-us/kusto/query/t-sql?view=microsoft-fabric) queries on a
 specified Database of your Azure Data Explorer Cluster.
 
+---
+
 ### [`New-KustoClientRequestProperties`](./docs/en-US/New-KustoClientRequestProperties.md)
 
 Creates a new `ClientRequestProperties` object
 to manage the interaction between client and service. This object can be later on passed as argument to the request cmdlets: [`Invoke-KustoControlCommand`](./docs/en-US/Invoke-KustoControlCommand.md), [`Invoke-KustoQuery`](./docs/en-US/Invoke-KustoQuery.md),
 [`Set-KustoBatchingPolicy`](./docs/en-US/Set-KustoBatchingPolicy.md) and [`Set-KustoIngestionMapping`](./docs/en-US/Set-KustoIngestionMapping.md).
 
+---
+
 ### [`New-KustoColumnMapping`](./docs/en-US/New-KustoColumnMapping.md)
 
 Creates a new object of type `ColumnMapping`, this object can be later on passed as argument to the [`New-KustoIngestionMapping`](./docs/en-US/New-KustoIngestionMapping.md) cmdlet.
+
+---
 
 ### [`New-KustoIngestionMapping`](./docs/en-US/New-KustoIngestionMapping.md)
 
 Creates a new object of type `IngestionMapping` that can be later on passed as argument to the [`Invoke-KustoIngestFromStorage`](./docs/en-US/Invoke-KustoIngestFromStorage.md), [`Invoke-KustoIngestFromStream`](./docs/en-US/Invoke-KustoIngestFromStream.md) and [`Set-KustoIngestionMapping`](./docs/en-US/Set-KustoIngestionMapping.md) commands.
 
+---
+
 ### [`Set-KustoBatchingPolicy`](./docs/en-US/Set-KustoBatchingPolicy.md)
 
 Alters the [__Ingestion batching policy__](https://learn.microsoft.com/en-us/kusto/management/batching-policy?view=microsoft-fabric) of a Database or specific Table on an Azure Data Explorer Cluster.
+
+---
 
 ### [`Set-KustoIngestionMapping`](./docs/en-US/Set-KustoIngestionMapping.md)
 
