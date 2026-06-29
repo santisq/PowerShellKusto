@@ -116,7 +116,7 @@ Set-Location ./PowerShellKusto
 
 ## Requirements
 
-This module is compatible only with [__PowerShell v7.2.0__][psgithub] or above.
+This module is compatible only with [__PowerShell v7.4.0__][psgithub] or above.
 
 ## Contributing
 
