@@ -1,5 +1,5 @@
 ﻿$moduleName = [System.IO.Path]::GetFileNameWithoutExtension($PSCommandPath)
-$context = [System.IO.Path]::Combine($PSScriptRoot, 'bin', 'net6', "$moduleName.Shared.dll")
+$context = [System.IO.Path]::Combine($PSScriptRoot, 'bin', 'net8', "$moduleName.Shared.dll")
 $isReload = $true
 
 if (-not ('PowerShellKusto.Shared.LoadContext' -as [type])) {

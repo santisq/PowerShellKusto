@@ -10,9 +10,7 @@ task Clean {
 
 task BuildDocs {
     $helpParams = $ProjectInfo.Documentation.GetParams()
-    if ($helpParams) {
-        $null = New-ExternalHelp @helpParams
-    }
+    $null = New-ExternalHelp @helpParams
 }
 
 task BuildManaged {
@@ -21,6 +19,10 @@ task BuildManaged {
 
     try {
         foreach ($framework in $ProjectInfo.Project.TargetFrameworks) {
+            if ($framework -match '^net4' -and -not $IsWindows) {
+                continue
+            }
+
             Write-Host "Compiling for $framework"
             dotnet @arguments --framework $framework
 
@@ -85,7 +87,15 @@ task PesterTests {
 
     if (-not (dotnet tool list --global | Select-String coverlet.console -SimpleMatch)) {
         Write-Host 'Installing dotnet tool coverlet.console' -ForegroundColor Yellow
-        dotnet tool install --global coverlet.console
+        dotnet @(
+            'tool', 'install'
+            '--global', 'coverlet.console'
+            if (-not $IsCoreCLR) {
+                '--version', '6.0.4'
+            }
+            else {
+                '--version', '8.0.1'
+            })
     }
 
     coverlet $ProjectInfo.Pester.GetTestArgs($PSVersionTable.PSVersion)

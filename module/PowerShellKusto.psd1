@@ -11,7 +11,7 @@
     RootModule        = 'PowerShellKusto.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '1.0.0'
+    ModuleVersion     = '1.1.0'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -32,7 +32,7 @@
     Description       = 'PowerShell Module for Azure Data Explorer management, query and ingestion'
 
     # Minimum version of the PowerShell engine required by this module
-    PowerShellVersion = '7.2.0'
+    PowerShellVersion = '7.4.0'
 
     # Name of the PowerShell host required by this module
     # PowerShellHostName = ''

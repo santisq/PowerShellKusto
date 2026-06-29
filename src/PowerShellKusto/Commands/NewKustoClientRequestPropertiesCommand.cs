@@ -67,7 +67,7 @@ public sealed class NewKustoClientRequestPropertiesCommand : PSCmdlet
 
         if (NoTruncation)
         {
-            properties.SetOption(ClientRequestProperties.OptionNoTruncation, NoTruncation);
+            properties.SetOption(ClientRequestProperties.OptionNoTruncation, NoTruncation.IsPresent);
         }
 
         WriteObject(properties);
